@@ -10,6 +10,6 @@ public class Main {
 
         gameManager.CreateNewMap();
         gameManager.RenderMap();
-
+        gameManager.Update();
     }
 }

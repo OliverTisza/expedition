@@ -8,6 +8,7 @@ public class Player extends AbstractTileObject {
     private int gold;
     private int rep;
     private int fame;
+    private int visionRange;
 
     private int rowPos;
     private int colPos;
@@ -24,10 +25,35 @@ public class Player extends AbstractTileObject {
         this.inventory = new Inventory();
         this.rowPos = rowPos;
         this.colPos = colPos;
+        this.visionRange = 1;
     }
 
-    public void Move(){
+    public void Move(String input){
 
+        try {
+            switch (input){
+                case "up":
+                    setRowPos(getRowPos()-1);
+                    break;
+                case "down":
+                    setRowPos(getRowPos()+1);
+                    break;
+                case "left":
+                    setColPos(getColPos()-1);
+                    break;
+                case "right":
+                    setColPos(getColPos()+1);
+                    break;
+            }
+
+            if(getEnergy() >0){
+                setEnergy(getEnergy() - 1);
+            }
+            else {;}
+
+        } catch(ArrayIndexOutOfBoundsException e) {
+            System.out.println("You can't go out of bounds");
+        }
 
     }
 
@@ -78,6 +104,14 @@ public class Player extends AbstractTileObject {
 
     public void setColPos(int colPos) {
         this.colPos = colPos;
+    }
+
+    public int getVisionRange() {
+        return visionRange;
+    }
+
+    public void setVisionRange(int visionRange) {
+        this.visionRange = visionRange;
     }
 }
 
