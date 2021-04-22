@@ -76,7 +76,6 @@ public class GameManager {
                 }
                 else { System.out.print("x ");}
 
-
             }
             System.out.println();
         }
@@ -148,9 +147,6 @@ public class GameManager {
                     }
                 }
             }
-
-
-
     }
 
 }
