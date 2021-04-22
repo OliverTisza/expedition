@@ -1,8 +1,15 @@
 package com.company;
 
+import com.company.Manager.GameManager;
+
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+
+        GameManager gameManager = new GameManager();
+
+        gameManager.CreateNewMap();
+        gameManager.RenderMap();
+
     }
 }
