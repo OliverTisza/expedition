@@ -1,4 +1,4 @@
 package com.company.Shops;
 
-public class Shop {
+public class StartingShop {
 }

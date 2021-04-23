@@ -11,11 +11,10 @@ public class GameManager {
 
     private final int HEIGHT = 10;
     private final int WIDTH = 20;
-
     private final AbstractTileObject[][] map = new AbstractTileObject[HEIGHT][WIDTH];
     private final RandomManager randomManager = new RandomManager();
+
     private RenderManager renderManager;
-    private Random random = new Random();
 
     private Player player;
     private AbstractTileObject standingOnTile;
@@ -30,12 +29,15 @@ public class GameManager {
 
         System.out.println("Sea pos: "+seaRowPos +" "+ seaColPos );
 
+
+        // Sorrend fontos!
         CreateWaterAndGround(seaRowPos, seaColPos);
         randomManager.RandomizeGround(map, WIDTH, HEIGHT);
         CreateShipAndPyramid(seaRowPos, seaColPos);
 
         standingOnTile = new Ground();
         standingOnTile.setExplored(true);
+
         AbstractCompanion startingCompanion = randomManager.GenerateCompanion(standingOnTile);
 
         Explore();
@@ -49,9 +51,6 @@ public class GameManager {
 
     }
 
-
-
-
     public void Update(){
 
         Scanner scanner = new Scanner(System.in);
@@ -62,13 +61,7 @@ public class GameManager {
 
         if(isValidAction(playerInputWords[1])){
 
-            if(player.getEnergy() <= 0){
-                boolean isLeaving = randomManager.LeaveEvent();
-                if(isLeaving){
-                    System.out.println("The explorer has left the party. \n Game Over.");
-                    return;
-                }
-            }
+            if (OutOfEnergy()) return;
 
             if(playerInputWords[0].equals("move")){
                 ExecuteMoveAction(playerInputWords[1]);
@@ -76,6 +69,9 @@ public class GameManager {
 
             else if(playerInputWords[0].equals("show") ){
                 ExecuteShowAction(playerInputWords[1]);
+            }
+            else if(playerInputWords[0].equals("use")){
+                // use food items
             }
 
             System.out.println("Player energy: " + player.getEnergy());
@@ -91,12 +87,27 @@ public class GameManager {
 
     }
 
+    private boolean OutOfEnergy() {
+
+        //TODO: companions should always leave first
+
+        if(player.getEnergy() <= 0){
+            boolean isLeaving = randomManager.LeaveEvent();
+            if(isLeaving){
+                System.out.println("The explorer has left the party. \n Game Over.");
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void CreateShipAndPyramid(int seaRowPos, int seaColPos) {
+
         int[] uniquePos;
+
         uniquePos = randomManager.GeneratePyramidLocation(HEIGHT,WIDTH, seaRowPos, seaColPos);
         map[uniquePos[0]][uniquePos[1]] = new Pyramid();
         System.out.println("Pyramid location: "+uniquePos[0] +" "+ uniquePos[1]);
-
 
         uniquePos = randomManager.GenerateShipLocation(seaRowPos, seaColPos);
         map[uniquePos[0]][uniquePos[1]] = new Ship(uniquePos[0], uniquePos[1]);
@@ -105,13 +116,15 @@ public class GameManager {
         if(map[uniquePos[0]][uniquePos[1]+1].isWalkable()){
             player = new Player(uniquePos[0], uniquePos[1]+1);
             map[uniquePos[0]][uniquePos[1]+1] = player;
-        } else {
+        }
+        else {
             player = new Player(uniquePos[0]+1, uniquePos[1]);
             map[uniquePos[0]+1][uniquePos[1]] = player;
         }
     }
 
     private void CreateWaterAndGround(int seaRowPos, int seaColPos) {
+
         for(int i = 0; i < HEIGHT; i++){
             for (int j = 0; j < WIDTH; j++){
 
@@ -165,6 +178,9 @@ public class GameManager {
                 case "map":
                     return true;
 
+                case "shop":
+
+
             }
         } catch(ArrayIndexOutOfBoundsException e) {
             System.out.println("You can't go out of bounds");
@@ -174,7 +190,6 @@ public class GameManager {
     }
 
     private void Explore() {
-
 
             for (int i = player.getVisionRange()*-1; i <= player.getVisionRange(); i++){
                 for( int j = player.getVisionRange()*-1; j <= player.getVisionRange(); j++){
