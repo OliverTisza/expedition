@@ -96,7 +96,9 @@ public class GameManager {
         System.out.println("Which way do you want to go?");
         String playerInput = scanner.nextLine();
 
-        if(isValidAction(playerInput)){
+        String[] playerInputWords = playerInput.split(" ");
+
+        if(isValidAction(playerInputWords[1])){
 
             if(player.getEnergy() <= 0){
                 boolean isLeaving = randomManager.LeaveEvent();
@@ -107,15 +109,17 @@ public class GameManager {
 
             }
 
-            map[player.getRowPos()][player.getColPos()] = standingOnTile;
-            player.Move(playerInput);
-            standingOnTile = map[player.getRowPos()][player.getColPos()];
-            map[player.getRowPos()][player.getColPos()] = player;
+            if(playerInputWords[0].equals("move")){
+                map[player.getRowPos()][player.getColPos()] = standingOnTile;
+                player.Move(playerInputWords[1]);
+                standingOnTile = map[player.getRowPos()][player.getColPos()];
+                map[player.getRowPos()][player.getColPos()] = player;
 
-            System.out.println("Actual tile: " + standingOnTile.getSymbol());
+                System.out.println("Actual tile: " + standingOnTile.getSymbol());
 
-            Explore();
-            RenderMap();
+                Explore();
+                RenderMap();
+            }
 
             System.out.println("Player energy: " + player.getEnergy());
 

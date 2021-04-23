@@ -49,7 +49,7 @@ public class Player extends AbstractTileObject {
             if(getEnergy() >0){
                 setEnergy(getEnergy() - 1);
             }
-            
+
 
         } catch(ArrayIndexOutOfBoundsException e) {
             System.out.println("You can't go out of bounds");
