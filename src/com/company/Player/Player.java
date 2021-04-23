@@ -1,6 +1,10 @@
 package com.company.Player;
 
+import com.company.Companions.AbstractCompanion;
 import com.company.Tiles.AbstractTileObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Player extends AbstractTileObject {
 
@@ -18,6 +22,7 @@ public class Player extends AbstractTileObject {
     private int colPos;
 
     private Inventory inventory;
+    private List<AbstractCompanion> companions = new ArrayList<AbstractCompanion>();
 
     public Player(int rowPos, int colPos) {
         super(true,true, '*');

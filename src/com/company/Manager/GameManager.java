@@ -80,26 +80,26 @@ public class GameManager {
             else if(playerInputWords[0].equals("use")){
                 /*
                 player.getInventorySlots()  (lista, tomb)
-                foreach(item : slot){
-                    if(item.getName().equals(playerInputWords[1])){
+                foreach(slot : slots){
+                    if(slot.getName().equals(playerInputWords[1])){
 
                         if(playerInputWords[1].equals("whiskey")) {
-                            player.increaseEnergy(item.getHeldItem().getEnergyAmount() + player.getWhiskeyBonus())
+                            player.increaseEnergy(slot.getHeldItem().getEnergyAmount() + player.getWhiskeyBonus())
                             if(randomManager.BecomesAddicted()){
                                 player.CompanionArray[randomNum].setAddicted(true);
                             }
-                            item.setAmount(getAmount()-1)
+                            slot.setAmount(getAmount()-1)
                         }
                         else if (playerInputWords[1].equals("drug")){
                             player.increaseEnergy(item.getHeldItem().getEnergyAmount() + player.getDrugBonus())
                             if(randomManager.BecomesAddicted()){
                                 player.CompanionArray[randomNum].setAddicted(true);
                             }
-                            item.setAmount(getAmount()-1)
+                            slot.setAmount(getAmount()-1)
                         }
                         else {
                             player.increaseEnergy(item.getHeldItem().getEnergyAmount())
-                            item.setAmount(getAmount()-1)
+                            slot.setAmount(getAmount()-1)
                         }
                     }
                  */
