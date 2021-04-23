@@ -1,6 +1,6 @@
 package com.company.Items;
 
-public class AbstractCompanion {
+public abstract class AbstractCompanion {
 
     private int cost;
     private boolean isAddicted;
