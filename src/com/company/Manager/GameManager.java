@@ -12,8 +12,8 @@ public class GameManager {
     private final int HEIGHT = 10;
     private final int WIDTH = 20;
 
-    private AbstractTileObject[][] map = new AbstractTileObject[HEIGHT][WIDTH];
-    private RandomManager randomManager = new RandomManager();
+    private final AbstractTileObject[][] map = new AbstractTileObject[HEIGHT][WIDTH];
+    private final RandomManager randomManager = new RandomManager();
     private RenderManager renderManager;
     private Random random = new Random();
 
@@ -23,12 +23,12 @@ public class GameManager {
 
     public void CreateNewMap(){
 
-        int seaRowPos = random.nextInt(HEIGHT-2)+1;
-        int seaColPos = random.nextInt(WIDTH/2)+1;
+        int[] seaPos = randomManager.GenerateSeaPos(HEIGHT,WIDTH);
+
+        int seaRowPos = seaPos[0];
+        int seaColPos = seaPos[1];
 
         System.out.println("Sea pos: "+seaRowPos +" "+ seaColPos );
-
-        int[] uniquePos;
 
         CreateWaterAndGround(seaRowPos, seaColPos);
         randomManager.RandomizeGround(map, WIDTH, HEIGHT);

@@ -10,6 +10,10 @@ public class RandomManager {
 
     Random random = new Random();
 
+    public int[] GenerateSeaPos(int height, int width){
+        return new int[]{random.nextInt(height-2)+1,random.nextInt(width/2)+1};
+    }
+
     public void RandomizeGround(AbstractTileObject[][] map, int WIDTH, int HEIGHT){
 
         for(int i = 0; i < HEIGHT; i++){
@@ -99,7 +103,6 @@ public class RandomManager {
         int randomNum = random.nextInt(100);
         return randomNum < 8;
     }
-
 
     public AbstractCompanion GenerateCompanion(AbstractTileObject location){
         int randomNum = random.nextInt(3);
