@@ -55,8 +55,8 @@ public class Player extends AbstractTileObject {
                     break;
             }
 
-            if(getEnergy() >0){
-                setEnergy(getEnergy() - 1);
+            if(getEnergy() > 0){
+                setEnergy(getEnergy() - (1 + inventory.getOverCommitmentPenalty()));
             }
 
 
@@ -66,7 +66,7 @@ public class Player extends AbstractTileObject {
 
     }
 
-    public void increaseEnergy(int energyAmount){
+    public void increaseEnergy(float energyAmount){
 
         setEnergy(energy + energyAmount);
 
@@ -143,6 +143,14 @@ public class Player extends AbstractTileObject {
 
     public void setDrugBonus(float drugBonus) {
         this.drugBonus = drugBonus;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 }
 

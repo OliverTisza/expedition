@@ -31,7 +31,7 @@ public class Inventory {
     }
 
     public void addItem(AbstractItem item) {
-        boolean carry = false;
+        boolean carry = true;
         for(Slot slot : slots) {
             if(slot.getName().equals(item.getName())) {
                 ItemAddResult result = slot.addItem(item);

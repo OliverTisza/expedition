@@ -121,4 +121,8 @@ public class RandomManager {
         return null;
     }
 
+    public boolean BecomesAddicted(){
+        return random.nextInt(100) < 15;
+    }
+
 }

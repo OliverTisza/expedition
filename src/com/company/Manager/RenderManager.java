@@ -1,7 +1,11 @@
 package com.company.Manager;
 
 import com.company.Companions.AbstractCompanion;
+import com.company.Player.Inventory;
+import com.company.Player.Slot;
 import com.company.Tiles.AbstractTileObject;
+
+import java.util.List;
 
 public class RenderManager {
 
@@ -37,4 +41,13 @@ public class RenderManager {
     public void RenderShop(){
 
     }
+
+    public void RenderInventory(List<Slot> slots){
+
+        for( Slot slot : slots){
+            System.out.println(slot.getName() +": "+ slot.getHeldCount());
+        }
+
+    }
+
 }

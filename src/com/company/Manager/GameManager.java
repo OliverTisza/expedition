@@ -1,9 +1,15 @@
 package com.company.Manager;
 
 import com.company.Companions.AbstractCompanion;
+import com.company.Items.AbstractFoodItem;
+import com.company.Items.Chocolate;
+import com.company.Items.Whiskey;
 import com.company.Player.Player;
+import com.company.Player.Slot;
 import com.company.Tiles.*;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -19,6 +25,16 @@ public class GameManager {
     private Player player;
     private AbstractTileObject standingOnTile;
 
+    public void StartLevel(){
+
+        /*TODO offer companion
+           then show shop
+           then create new map
+         */
+
+
+        CreateNewMap();
+    }
 
     public void CreateNewMap(){
 
@@ -49,6 +65,16 @@ public class GameManager {
 
         player.setEnergy(2);
 
+        for(int i = 0; i < 60; i++){
+            player.getInventory().addItem(new Chocolate(player));
+        }
+        for(int i = 0; i < 6; i++){
+            player.getInventory().addItem(new Whiskey(player));
+        }
+
+        Update();
+
+
     }
 
     public void Update(){
@@ -77,34 +103,39 @@ public class GameManager {
             else if(playerInputWords[0].equals("show") ){
                 ExecuteShowAction(playerInputWords[1]);
             }
-            else if(playerInputWords[0].equals("use")){
-                /*
-                player.getInventorySlots()  (lista, tomb)
-                foreach(slot : slots){
-                    if(slot.getName().equals(playerInputWords[1])){
+            else if(playerInputWords[0].equals("use")) {
 
-                        if(playerInputWords[1].equals("whiskey")) {
-                            player.increaseEnergy(slot.getHeldItem().getEnergyAmount() + player.getWhiskeyBonus())
-                            if(randomManager.BecomesAddicted()){
-                                player.CompanionArray[randomNum].setAddicted(true);
+                List<Slot> slots = player.getInventory().getSlots();
+                Collections.reverse(slots);
+                for (Slot slot : slots) {
+                    if (slot.getName().equals(playerInputWords[1])) {
+
+                        if (playerInputWords[1].equals("whiskey")) {
+                            player.increaseEnergy(((AbstractFoodItem) slot.getHeldItem()).getEnergyAmount() + player.getWhiskeyBonus());
+                            if (randomManager.BecomesAddicted()) {
+                                //player.CompanionArray[randomNum].setAddicted(true);
                             }
-                            slot.setAmount(getAmount()-1)
-                        }
-                        else if (playerInputWords[1].equals("drug")){
-                            player.increaseEnergy(item.getHeldItem().getEnergyAmount() + player.getDrugBonus())
-                            if(randomManager.BecomesAddicted()){
-                                player.CompanionArray[randomNum].setAddicted(true);
+                            slot.decreaseHeldCount();
+                            Collections.reverse(slots);
+                            break;
+                        } else if (playerInputWords[1].equals("drug")) {
+                            player.increaseEnergy(((AbstractFoodItem) slot.getHeldItem()).getEnergyAmount() + player.getDrugBonus());
+                            if (randomManager.BecomesAddicted()) {
+                                //player.CompanionArray[randomNum].setAddicted(true);
                             }
-                            slot.setAmount(getAmount()-1)
-                        }
-                        else {
-                            player.increaseEnergy(item.getHeldItem().getEnergyAmount())
-                            slot.setAmount(getAmount()-1)
+                            slot.decreaseHeldCount();
+                            Collections.reverse(slots);
+                            break;
+                        } else {
+                            player.increaseEnergy(((AbstractFoodItem) slot.getHeldItem()).getEnergyAmount());
+                            slot.decreaseHeldCount();
+                            Collections.reverse(slots);
+                            break;
                         }
                     }
-                 */
 
 
+                }
             }
 
             System.out.println("Player energy: " + player.getEnergy());
@@ -171,13 +202,20 @@ public class GameManager {
         switch (playerInputWord){
             case "companion":
                 randomManager.GenerateCompanion(standingOnTile);
+                break;
             case "shop":
                 if(standingOnTile.getSymbol() == 'V') {
                     Village tmp = (Village) standingOnTile;
                     renderManager.RenderShop();
                 }
+                break;
             case "map":
                 renderManager.RenderMap();
+                break;
+
+            case "inventory":
+                renderManager.RenderInventory(player.getInventory().getSlots());
+                break;
         }
     }
 
@@ -211,7 +249,11 @@ public class GameManager {
                 case "map":
                     return true;
 
-                case "shop":
+                case "inventory":
+                    return true;
+
+                default:
+                    return true;
 
 
             }
@@ -219,7 +261,7 @@ public class GameManager {
             System.out.println("You can't go out of bounds");
             return  false;
         }
-        return  false;
+        //return  false;
     }
 
     private void Explore() {

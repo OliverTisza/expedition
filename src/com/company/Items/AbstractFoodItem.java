@@ -17,8 +17,19 @@ public abstract class AbstractFoodItem extends AbstractItem{
     }
 
 
+    public int getEnergyAmount() {
+        return energyAmount;
+    }
 
+    public void setEnergyAmount(int energyAmount) {
+        this.energyAmount = energyAmount;
+    }
 
+    public boolean isAddictive() {
+        return isAddictive;
+    }
 
-
+    public void setAddictive(boolean addictive) {
+        isAddictive = addictive;
+    }
 }

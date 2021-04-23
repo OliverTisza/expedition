@@ -8,7 +8,7 @@ public class Main {
 
         GameManager gameManager = new GameManager();
 
-        gameManager.CreateNewMap();
-        gameManager.Update();
+        gameManager.StartLevel();
+
     }
 }
