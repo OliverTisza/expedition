@@ -9,7 +9,6 @@ public class Main {
         GameManager gameManager = new GameManager();
 
         gameManager.CreateNewMap();
-        gameManager.RenderMap();
         gameManager.Update();
     }
 }

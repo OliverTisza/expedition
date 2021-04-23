@@ -1,6 +1,6 @@
 package com.company.Player;
 
-import com.company.Items.AbstractCompanion;
+import com.company.Companions.AbstractCompanion;
 import com.company.Items.AbstractItem;
 
 import java.util.ArrayList;

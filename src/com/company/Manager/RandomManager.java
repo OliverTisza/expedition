@@ -1,5 +1,6 @@
 package com.company.Manager;
 
+import com.company.Companions.*;
 import com.company.Tiles.*;
 
 import java.util.List;
@@ -97,6 +98,24 @@ public class RandomManager {
         //Todo: Check if player has companions, if yes that leaves
         int randomNum = random.nextInt(100);
         return randomNum < 8;
+    }
+
+
+    public AbstractCompanion GenerateCompanion(AbstractTileObject location){
+        int randomNum = random.nextInt(3);
+
+        switch (randomNum){
+            case 0:
+                if (location.getSymbol() == 'V'){ return new Scout(); }
+                else { return new Soldier();}
+            case 1:
+                if (location.getSymbol() == 'V'){ return new Shaman();}
+                else {return new Trader();}
+            case 2:
+                if (location.getSymbol() == 'V'){ return new Sage(); }
+                else {return new Donkey();}
+        }
+        return null;
     }
 
 }
