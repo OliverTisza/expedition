@@ -21,8 +21,8 @@ public class GameManager {
 
     public void CreateNewMap(){
 
-        int seaRowPos = random.nextInt(HEIGHT-1);
-        int seaColPos = random.nextInt(WIDTH/2+1);
+        int seaRowPos = random.nextInt(HEIGHT-2)+1;
+        int seaColPos = random.nextInt(WIDTH/2)+1;
 
         System.out.println("Sea pos: "+seaRowPos +" "+ seaColPos );
 
