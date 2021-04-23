@@ -9,7 +9,8 @@ public abstract class AbstractFoodItem extends AbstractItem{
 
     private Player player;
 
-    public AbstractFoodItem(int energyAmount, boolean isAddictive, Player player) {
+    public AbstractFoodItem(int energyAmount, boolean isAddictive, Player player, String name, int buyCost, int sellCost) {
+        super(buyCost,sellCost,true,name);
         this.energyAmount = energyAmount;
         this.isAddictive = isAddictive;
         this.player = player;
