@@ -10,9 +10,12 @@ public class Player extends AbstractTileObject {
     private int fame;
     private int visionRange;
 
+    private float whiskeyBonus;
+    private float drugBonus;
+
+
     private int rowPos;
     private int colPos;
-
 
     private Inventory inventory;
 
@@ -26,6 +29,7 @@ public class Player extends AbstractTileObject {
         this.rowPos = rowPos;
         this.colPos = colPos;
         this.visionRange = 1;
+        this.whiskeyBonus = 0;
     }
 
     public void Move(String input){
@@ -54,6 +58,12 @@ public class Player extends AbstractTileObject {
         } catch(ArrayIndexOutOfBoundsException e) {
             System.out.println("You can't go out of bounds");
         }
+
+    }
+
+    public void increaseEnergy(int energyAmount){
+
+        setEnergy(energy + energyAmount);
 
     }
 
@@ -112,6 +122,22 @@ public class Player extends AbstractTileObject {
 
     public void setVisionRange(int visionRange) {
         this.visionRange = visionRange;
+    }
+
+    public float getWhiskeyBonus() {
+        return whiskeyBonus;
+    }
+
+    public void setWhiskeyBonus(float whiskeyBonus) {
+        this.whiskeyBonus = whiskeyBonus;
+    }
+
+    public float getDrugBonus() {
+        return drugBonus;
+    }
+
+    public void setDrugBonus(float drugBonus) {
+        this.drugBonus = drugBonus;
     }
 }
 

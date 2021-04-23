@@ -15,9 +15,9 @@ public abstract class AbstractFoodItem extends AbstractItem{
         this.player = player;
     }
 
-    public void increaseEnergy(){
-        player.setEnergy(player.getEnergy()+energyAmount);
 
-    }
+
+
+
 
 }

@@ -6,5 +6,6 @@ public class Scout extends AbstractCompanion{
     @Override
     public void ApplyModifier(Player player) {
         //TODO: +1 vision range
+        player.setVisionRange(player.getVisionRange() + 1);
     }
 }

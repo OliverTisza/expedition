@@ -59,6 +59,13 @@ public class GameManager {
 
         String[] playerInputWords = playerInput.split(" ");
 
+        if(playerInputWords.length < 2){
+            renderManager.RenderMap();
+            System.out.println("Invalid action");
+            System.out.println("Actual tile: " + standingOnTile.getSymbol());
+            Update();
+        }
+
         if(isValidAction(playerInputWords[1])){
 
             if (OutOfEnergy()) return;
@@ -71,7 +78,33 @@ public class GameManager {
                 ExecuteShowAction(playerInputWords[1]);
             }
             else if(playerInputWords[0].equals("use")){
-                // use food items
+                /*
+                player.getInventorySlots()  (lista, tomb)
+                foreach(item : slot){
+                    if(item.getName().equals(playerInputWords[1])){
+
+                        if(playerInputWords[1].equals("whiskey")) {
+                            player.increaseEnergy(item.getHeldItem().getEnergyAmount() + player.getWhiskeyBonus())
+                            if(randomManager.BecomesAddicted()){
+                                player.CompanionArray[randomNum].setAddicted(true);
+                            }
+                            item.setAmount(getAmount()-1)
+                        }
+                        else if (playerInputWords[1].equals("drug")){
+                            player.increaseEnergy(item.getHeldItem().getEnergyAmount() + player.getDrugBonus())
+                            if(randomManager.BecomesAddicted()){
+                                player.CompanionArray[randomNum].setAddicted(true);
+                            }
+                            item.setAmount(getAmount()-1)
+                        }
+                        else {
+                            player.increaseEnergy(item.getHeldItem().getEnergyAmount())
+                            item.setAmount(getAmount()-1)
+                        }
+                    }
+                 */
+
+
             }
 
             System.out.println("Player energy: " + player.getEnergy());
