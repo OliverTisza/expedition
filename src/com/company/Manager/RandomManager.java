@@ -15,7 +15,10 @@ public class RandomManager {
             for (int j = 0; j < WIDTH; j++){
                 int randomNumber = random.nextInt(100);
                 if (map[i][j].getSymbol() == 'G'){
-                    if (randomNumber > 37){ }
+                    if (randomNumber > 94 && i > 3 && j < WIDTH-2 && j > 0){
+                        CreateLake(i,j, map);
+                    }
+                    if (randomNumber > 42){ }
                     else if (randomNumber > 32){
                         map[i][j] = new Village();
                     }
@@ -31,9 +34,41 @@ public class RandomManager {
                     else if (randomNumber > 6){
                         map[i][j] = new Altar();
                     }
+
+
+
+
                 }
             }
         }
+    }
+
+    private void CreateLake(int row, int col, AbstractTileObject[][] map) {
+
+        if( map[row-1][col].getSymbol() != 'S' && map[row][col-1].getSymbol() != 'S' && map[row-1][col-1].getSymbol() != 'S'){
+            map[row][col] = new Lake();
+            map[row][col+1] = new Lake();
+
+            for (int i = -1; i < 2; i++){
+                for (int j = -1; j < 3; j++){
+
+                    try{
+                        if(map[row+i][col+j].getSymbol() != 'l'){
+                            map[row+i][col+j] = new WetGround();
+                        }
+
+                    } catch (ArrayIndexOutOfBoundsException e){
+                        continue;
+                    }
+
+
+                }
+            }
+
+        }
+
+
+
     }
 
     public int[] GeneratePyramidLocation(int HEIGHT,int WIDTH,int seaRowPos, int seaColPos){

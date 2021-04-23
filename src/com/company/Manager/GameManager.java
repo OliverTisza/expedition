@@ -23,6 +23,9 @@ public class GameManager {
 
         int seaRowPos = random.nextInt(HEIGHT-1);
         int seaColPos = random.nextInt(WIDTH/2+1);
+
+        System.out.println("Sea pos: "+seaRowPos +" "+ seaColPos );
+
         int[] uniquePos = new int[2];
 
         for(int i = 0; i < HEIGHT; i++){
@@ -69,12 +72,13 @@ public class GameManager {
         for(int i = 0; i < HEIGHT; i++){
             for (int j = 0; j < WIDTH; j++){
 
-                //System.out.print(map[i][j].getSymbol() + " ");
-
+                System.out.print(map[i][j].getSymbol() + " ");
+                /*
                 if (map[i][j].isExplored()){
                     System.out.print(map[i][j].getSymbol() + " ");
                 }
                 else { System.out.print("x ");}
+                 */
 
             }
             System.out.println();
