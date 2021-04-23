@@ -63,6 +63,10 @@ public class GameManager {
 
         Explore();
 
+        // TMP
+
+        player.setEnergy(2);
+
     }
 
 
@@ -93,6 +97,16 @@ public class GameManager {
         String playerInput = scanner.nextLine();
 
         if(isValidAction(playerInput)){
+
+            if(player.getEnergy() <= 0){
+                boolean isLeaving = randomManager.LeaveEvent();
+                if(isLeaving){
+                    System.out.println("The explorer has left the party. \n Game Over.");
+                    return;
+                }
+
+            }
+
             map[player.getRowPos()][player.getColPos()] = standingOnTile;
             player.Move(playerInput);
             standingOnTile = map[player.getRowPos()][player.getColPos()];
@@ -154,14 +168,3 @@ public class GameManager {
     }
 
 }
-
-
-/*
-*
-*
-*
-*
-*
-*
-*
-* */

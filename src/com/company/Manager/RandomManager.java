@@ -89,11 +89,14 @@ public class RandomManager {
         } else{
             return new int[]{ seaRowPos, random.nextInt(seaColPos)};
         }
-
-
-
     }
 
+    public boolean LeaveEvent(){
 
+
+        //Todo: Check if player has companions, if yes that leaves
+        int randomNum = random.nextInt(100);
+        return randomNum < 8;
+    }
 
 }
