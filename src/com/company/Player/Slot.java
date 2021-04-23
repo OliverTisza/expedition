@@ -1,4 +1,7 @@
-package com.company.Items;
+package com.company.Player;
+
+import com.company.Items.AbstractItem;
+import com.company.Items.ItemAddResult;
 
 public class Slot {
 
