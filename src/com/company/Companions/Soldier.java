@@ -8,4 +8,9 @@ public class Soldier extends AbstractCompanion{
         //TODO: +20% (0.2) energy from whiskey
         player.setWhiskeyBonus(player.getWhiskeyBonus() + 0.2f);
     }
+
+    @Override
+    public void DestroyModifier(Player player) {
+        player.setWhiskeyBonus(player.getWhiskeyBonus() - 0.2f);
+    }
 }

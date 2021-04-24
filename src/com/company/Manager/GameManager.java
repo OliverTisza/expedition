@@ -32,7 +32,7 @@ public class GameManager {
            then create new map
          */
 
-
+        player.ActivateSages();
         CreateNewMap();
     }
 

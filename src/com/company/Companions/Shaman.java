@@ -8,4 +8,9 @@ public class Shaman extends AbstractCompanion{
         //TODO: +20% (0.2) energy from drugs
         player.setDrugBonus(player.getDrugBonus() + 0.2f);
     }
+
+    @Override
+    public void DestroyModifier(Player player) {
+        player.setDrugBonus(player.getDrugBonus() - 0.2f);
+    }
 }

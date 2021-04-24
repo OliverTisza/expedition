@@ -12,8 +12,14 @@ public abstract class AbstractCompanion {
         this.isAddicted = false;
     }
 
+    public AbstractCompanion(int cost) {
+        this.cost = cost;
+        this.isAddicted = false;
+    }
+
     public abstract void ApplyModifier(Player player);
 
+    public abstract void DestroyModifier(Player player);
 
     public int getCost() {
         return cost;

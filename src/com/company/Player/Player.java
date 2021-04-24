@@ -17,12 +17,14 @@ public class Player extends AbstractTileObject {
     private float whiskeyBonus;
     private float drugBonus;
 
-
     private int rowPos;
     private int colPos;
 
     private Inventory inventory;
     private List<AbstractCompanion> companions = new ArrayList<AbstractCompanion>();
+
+    private int plusRepFromSagesOnNextMap;
+    private float traderSellModifier;
 
     public Player(int rowPos, int colPos) {
         super(true,true, '*');
@@ -35,6 +37,8 @@ public class Player extends AbstractTileObject {
         this.colPos = colPos;
         this.visionRange = 1;
         this.whiskeyBonus = 0;
+        this.plusRepFromSagesOnNextMap = 0;
+        this.traderSellModifier = 1.0f;
     }
 
     public void Move(String input){
@@ -70,6 +74,11 @@ public class Player extends AbstractTileObject {
 
         setEnergy(energy + energyAmount);
 
+    }
+
+    public void ActivateSages() {
+        rep += plusRepFromSagesOnNextMap;
+        plusRepFromSagesOnNextMap = 0;
     }
 
 
@@ -151,6 +160,22 @@ public class Player extends AbstractTileObject {
 
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
+    }
+
+    public int getPlusRepFromSagesOnNextMap() {
+        return plusRepFromSagesOnNextMap;
+    }
+
+    public void setPlusRepFromSagesOnNextMap(int plusRepFromSagesOnNextMap) {
+        this.plusRepFromSagesOnNextMap = plusRepFromSagesOnNextMap;
+    }
+
+    public float getTraderSellModifier() {
+        return traderSellModifier;
+    }
+
+    public void setTraderSellModifier(float traderSellModifier) {
+        this.traderSellModifier = traderSellModifier;
     }
 }
 

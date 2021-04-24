@@ -8,4 +8,9 @@ public class Scout extends AbstractCompanion{
         //TODO: +1 vision range
         player.setVisionRange(player.getVisionRange() + 1);
     }
+
+    @Override
+    public void DestroyModifier(Player player) {
+        player.setVisionRange(player.getVisionRange() - 1);
+    }
 }
