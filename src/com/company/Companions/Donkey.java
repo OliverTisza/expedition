@@ -13,4 +13,8 @@ public class Donkey extends AbstractCompanion{
     public void DestroyModifier(Player player) {
         player.getInventory().setMaxSlotCountWithoutPenalty(player.getInventory().getMaxSlotCountWithoutPenalty() - 2);
     }
+
+    public String toString() {
+        return "Donkey";
+    }
 }

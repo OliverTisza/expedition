@@ -13,4 +13,8 @@ public class Scout extends AbstractCompanion{
     public void DestroyModifier(Player player) {
         player.setVisionRange(player.getVisionRange() - 1);
     }
+
+    public String toString() {
+        return "Scout";
+    }
 }

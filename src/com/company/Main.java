@@ -1,6 +1,7 @@
 package com.company;
 
 import com.company.Manager.GameManager;
+import com.company.Player.Player;
 
 public class Main {
 
@@ -8,6 +9,7 @@ public class Main {
 
         GameManager gameManager = new GameManager();
 
+        gameManager.init(new Player(0,0));
         gameManager.StartLevel();
 
     }

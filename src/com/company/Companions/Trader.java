@@ -13,4 +13,8 @@ public class Trader extends AbstractCompanion{
     public void DestroyModifier(Player player) {
         player.setTraderSellModifier(player.getTraderSellModifier() - 0.1f);
     }
+
+    public String toString() {
+        return "Trader";
+    }
 }

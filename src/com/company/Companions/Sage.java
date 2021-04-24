@@ -14,4 +14,8 @@ public class Sage extends AbstractCompanion{
     public void DestroyModifier(Player player) {
         player.setPlusRepFromSagesOnNextMap(player.getPlusRepFromSagesOnNextMap() - 3);
     }
+
+    public String toString() {
+        return "Sage";
+    }
 }

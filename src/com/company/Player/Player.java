@@ -26,6 +26,7 @@ public class Player extends AbstractTileObject {
     private int plusRepFromSagesOnNextMap;
     private float traderSellModifier;
 
+
     public Player(int rowPos, int colPos) {
         super(true,true, '*');
         this.energy = 100;
@@ -176,6 +177,14 @@ public class Player extends AbstractTileObject {
 
     public void setTraderSellModifier(float traderSellModifier) {
         this.traderSellModifier = traderSellModifier;
+    }
+
+    public List<AbstractCompanion> getCompanions() {
+        return companions;
+    }
+
+    public void setCompanions(List<AbstractCompanion> companions) {
+        this.companions = companions;
     }
 }
 

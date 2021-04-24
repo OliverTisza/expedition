@@ -13,4 +13,8 @@ public class Soldier extends AbstractCompanion{
     public void DestroyModifier(Player player) {
         player.setWhiskeyBonus(player.getWhiskeyBonus() - 0.2f);
     }
+
+    public String toString() {
+        return "Soldier";
+    }
 }

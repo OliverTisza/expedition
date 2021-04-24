@@ -13,4 +13,8 @@ public class Shaman extends AbstractCompanion{
     public void DestroyModifier(Player player) {
         player.setDrugBonus(player.getDrugBonus() - 0.2f);
     }
+
+    public String toString() {
+        return "Shaman";
+    }
 }

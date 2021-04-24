@@ -25,12 +25,35 @@ public class GameManager {
     private Player player;
     private AbstractTileObject standingOnTile;
 
+    public void init(Player player) {
+        this.player = player;
+    }
     public void StartLevel(){
 
         /*TODO offer companion
            then show shop
            then create new map
          */
+        AbstractCompanion purchasableCompanion = randomManager.GenerateCompanion(new Ship(0,0));
+        System.out.println("You may hire <" + purchasableCompanion.toString() + "> as your new companion! The cost is: " + purchasableCompanion.getCost() + " gold pieces!");
+        System.out.println("Would you like to hire? (y/n): ");
+        Scanner sc = new Scanner(System.in);
+        String answer;
+        do {
+            answer = sc.nextLine().strip();
+            System.out.println("Would you like to hire? (y/n): ");
+        } while(!(answer.equals("y") || answer.equals("n")));
+
+        if(answer.equals("y")) {
+            if(player.getGold() >= purchasableCompanion.getCost())
+            {
+                player.setGold(player.getGold() - purchasableCompanion.getCost());
+                player.getCompanions().add(purchasableCompanion);
+                purchasableCompanion.ApplyModifier(player);
+            }else {
+                System.out.println("Not enough gold!");
+            }
+        }
 
         player.ActivateSages();
         CreateNewMap();
@@ -178,11 +201,13 @@ public class GameManager {
         System.out.println("Ship location: "+uniquePos[0] +" "+ uniquePos[1]);
 
         if(map[uniquePos[0]][uniquePos[1]+1].isWalkable()){
-            player = new Player(uniquePos[0], uniquePos[1]+1);
+            player.setRowPos(uniquePos[0]);
+            player.setColPos(uniquePos[1]+1);
             map[uniquePos[0]][uniquePos[1]+1] = player;
         }
         else {
-            player = new Player(uniquePos[0]+1, uniquePos[1]);
+            player.setRowPos(uniquePos[0]+1);
+            player.setColPos(uniquePos[1]);
             map[uniquePos[0]+1][uniquePos[1]] = player;
         }
     }
