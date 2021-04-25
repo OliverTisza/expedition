@@ -17,6 +17,7 @@ public class Player extends AbstractTileObject {
     private float whiskeyBonus;
     private float drugBonus;
 
+
     private int rowPos;
     private int colPos;
 
@@ -27,15 +28,15 @@ public class Player extends AbstractTileObject {
     private float traderSellModifier;
 
 
-    public Player(int rowPos, int colPos) {
+    public Player() {
         super(true,true, '*');
         this.energy = 100;
         this.gold = 250;
         this.rep = 3;
         this.fame = 0;
         this.inventory = new Inventory();
-        this.rowPos = rowPos;
-        this.colPos = colPos;
+        this.rowPos = -1;
+        this.colPos = -1;
         this.visionRange = 1;
         this.whiskeyBonus = 0;
         this.plusRepFromSagesOnNextMap = 0;

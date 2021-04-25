@@ -5,16 +5,19 @@ import com.company.Player.Player;
 public abstract class AbstractCompanion {
 
     private int cost;
-    private boolean isAddicted;
+    private boolean isAddictedToWhiskey;
+    private boolean isAddictedToDrug;
 
     public AbstractCompanion() {
         this.cost = 150;
-        this.isAddicted = false;
+        this.isAddictedToWhiskey = false;
+        this.isAddictedToDrug = false;
     }
 
     public AbstractCompanion(int cost) {
         this.cost = cost;
-        this.isAddicted = false;
+        this.isAddictedToWhiskey = false;
+        this.isAddictedToDrug = false;
     }
 
     public abstract void ApplyModifier(Player player);
@@ -29,11 +32,19 @@ public abstract class AbstractCompanion {
         this.cost = cost;
     }
 
-    public boolean isAddicted() {
-        return isAddicted;
+    public boolean isAddictedToWhiskey() {
+        return isAddictedToWhiskey;
     }
 
-    public void setAddicted(boolean addicted) {
-        isAddicted = addicted;
+    public void setAddictedToWhiskey(boolean addictedToWhiskey) {
+        isAddictedToWhiskey = addictedToWhiskey;
+    }
+
+    public boolean isAddictedToDrug() {
+        return isAddictedToDrug;
+    }
+
+    public void setAddictedToDrug(boolean addictedToDrug) {
+        isAddictedToDrug = addictedToDrug;
     }
 }

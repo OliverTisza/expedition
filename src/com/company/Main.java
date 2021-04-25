@@ -9,7 +9,7 @@ public class Main {
 
         GameManager gameManager = new GameManager();
 
-        gameManager.init(new Player(0,0));
+        //gameManager.init(new Player(0,0));
         gameManager.StartLevel();
 
     }

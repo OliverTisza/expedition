@@ -125,4 +125,8 @@ public class RandomManager {
         return random.nextInt(100) < 15;
     }
 
+    public int RandomCompanion(int bound){
+        return random.nextInt(bound);
+    }
+
 }
