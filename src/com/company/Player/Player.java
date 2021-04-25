@@ -24,15 +24,15 @@ public class Player extends AbstractTileObject {
     private Inventory inventory;
     private List<AbstractCompanion> companions = new ArrayList<AbstractCompanion>();
 
-    public Player(int rowPos, int colPos) {
+    public Player() {
         super(true,true, '*');
         this.energy = 100;
         this.gold = 250;
         this.rep = 3;
         this.fame = 0;
         this.inventory = new Inventory();
-        this.rowPos = rowPos;
-        this.colPos = colPos;
+        this.rowPos = -1;
+        this.colPos = -1;
         this.visionRange = 1;
         this.whiskeyBonus = 0;
     }
