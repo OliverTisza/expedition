@@ -17,6 +17,10 @@ public class Player extends AbstractTileObject {
     private float whiskeyBonus;
     private float drugBonus;
 
+    private boolean isAddictedToWhiskey = false;
+    private boolean isAddictedToDrug = false;
+    private boolean foundPyramid = false;
+
 
     private int rowPos;
     private int colPos;
@@ -62,7 +66,7 @@ public class Player extends AbstractTileObject {
             }
 
             if(getEnergy() > 0){
-                setEnergy(getEnergy() - (1 + inventory.getOverCommitmentPenalty()));
+                setEnergy(getEnergy() - (1 + inventory.getOverCommitmentPenalty()) - (companions.size() * 0.15f) );
             }
 
 
@@ -186,6 +190,30 @@ public class Player extends AbstractTileObject {
 
     public void setCompanions(List<AbstractCompanion> companions) {
         this.companions = companions;
+    }
+
+    public boolean isAddictedToWhiskey() {
+        return isAddictedToWhiskey;
+    }
+
+    public void setAddictedToWhiskey(boolean addictedToWhiskey) {
+        isAddictedToWhiskey = addictedToWhiskey;
+    }
+
+    public boolean isAddictedToDrug() {
+        return isAddictedToDrug;
+    }
+
+    public void setAddictedToDrug(boolean addictedToDrug) {
+        isAddictedToDrug = addictedToDrug;
+    }
+
+    public boolean isFoundPyramid() {
+        return foundPyramid;
+    }
+
+    public void setFoundPyramid(boolean foundPyramid) {
+        this.foundPyramid = foundPyramid;
     }
 }
 

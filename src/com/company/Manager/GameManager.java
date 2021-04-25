@@ -5,16 +5,14 @@ import com.company.Items.Food.AbstractFoodItem;
 import com.company.Items.Food.Chocolate;
 import com.company.Items.Food.Whiskey;
 import com.company.Items.Tools.Torch;
+import com.company.Items.Treasure;
 import com.company.Player.Player;
 import com.company.Player.Slot;
 import com.company.Shops.AbstractShop;
 import com.company.Shops.StartingShop;
 import com.company.Tiles.*;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class GameManager {
 
@@ -27,7 +25,17 @@ public class GameManager {
     Scanner scanner = new Scanner(System.in);
 
     private Player player = new Player();
+    private HashMap<String, Integer> rivals = new HashMap<>()
+    {{
+        put("Fredrick", 1000);
+        put("Alvarez", 750);
+        put("Wordsworth", 500);
+        put("Lee", 0);
+    }};
     private AbstractTileObject standingOnTile;
+
+    private int whiskeyDrank = 0;
+    private int drugUsed = 0;
 
     public void StartLevel(){
 
@@ -56,15 +64,17 @@ public class GameManager {
             }
         }
 
-        for (int i = 0; i < 50; i++){
-            player.getInventory().addItem(new Whiskey());
-        }
 
         StartingShop startingShop = new StartingShop();
         renderManager.RenderShopInventory(startingShop.getVendorSlots(), player);
-        Preparation(startingShop);
+        System.out.println(player.getCompanions().toString());
 
         player.ActivateSages();
+
+        player.setGold(1000);
+
+        Preparation(startingShop);
+
         //CreateNewMap();
     }
 
@@ -107,6 +117,7 @@ public class GameManager {
 
         }
         renderManager.RenderShopInventory(shop.getVendorSlots(), player);
+        System.out.println(player.getCompanions().toString());
     }
 
     public void CreateNewMap(){
@@ -143,7 +154,6 @@ public class GameManager {
 
     public void Update(){
 
-
         System.out.println("What would you like to do?");
         String playerInput = scanner.nextLine();
 
@@ -158,89 +168,120 @@ public class GameManager {
 
         if(isValidAction(playerInputWords)){
 
-            if (OutOfEnergy()) return;
+            OutOfEnergy();
+            UpdateWithravalStatus();
 
-
-            if(playerInputWords[0].equals("move")){
-                ExecuteMoveAction(playerInputWords[1]);
-            }
-
-            else if(playerInputWords[0].equals("show") ){
-                ExecuteShowAction(playerInputWords[1]);
-            }
-            else if(playerInputWords[0].equals("buy")){
-                if(standingOnTile.getSymbol() == 'V'){
-                    BuyFromShop(((Village)standingOnTile).getVillageShop(),playerInputWords);
-
-                }
-            }
-
-            else if(playerInputWords[0].equals("use")) {
-
-                List<Slot> slots = player.getInventory().getSlots();
-                Collections.reverse(slots);
-                for (Slot slot : slots) {
-                    if (slot.getName().equals(playerInputWords[1])) {
-
-                        if (playerInputWords[1].equals("whiskey")) {
-                            player.increaseEnergy(((AbstractFoodItem) slot.getHeldItem()).getEnergyAmount() + player.getWhiskeyBonus());
-                            if (randomManager.BecomesAddicted() && player.getCompanions().size() > 0) {
-                                int randomCompanion = randomManager.RandomCompanion(player.getCompanions().size());
-                                player.getCompanions().get(randomCompanion).setAddictedToWhiskey(true);
-                                System.out.println("Oh no! " + player.getCompanions().get(randomCompanion).toString() + " became addicted to whiskey!");
-                            }
-                            slot.decreaseHeldCount();
-                            Collections.reverse(slots);
-                            break;
-                        } else if (playerInputWords[1].equals("drug")) {
-                            player.increaseEnergy(((AbstractFoodItem) slot.getHeldItem()).getEnergyAmount() + player.getDrugBonus());
-                            if (randomManager.BecomesAddicted() && player.getCompanions().size() > 0) {
-                                int randomCompanion = randomManager.RandomCompanion(player.getCompanions().size());
-                                player.getCompanions().get(randomCompanion).setAddictedToDrug(true);
-                                System.out.println("Oh no!" + player.getCompanions().get(randomCompanion).toString() + " became addicted to drugs!");
-                            }
-                            slot.decreaseHeldCount();
-                            Collections.reverse(slots);
-                            break;
-                        } else {
-                            player.increaseEnergy(((AbstractFoodItem) slot.getHeldItem()).getEnergyAmount());
-                            slot.decreaseHeldCount();
-                            Collections.reverse(slots);
-                            break;
-                        }
-                    }
-
-
-                }
+            switch (playerInputWords[0]) {
+                case "move":
+                    ExecuteMoveAction(playerInputWords[1]);
+                    break;
+                case "show":
+                    ExecuteShowAction(playerInputWords[1]);
+                    break;
+                case "buy":
+                    if (standingOnTile.getSymbol() == 'V') BuyFromShop(((Village) standingOnTile).getVillageShop(), playerInputWords);
+                    else if (playerInputWords[0].equals("use")) UseEnergyItem(playerInputWords);
+                    break;
+                case "go":
+                    if(playerInputWords[1].equals("home"))VisitMuseum();
             }
 
             if(player.getEnergy() > 100) player.setEnergy(100);
 
+            if(standingOnTile.getSymbol() == 'P'){
+                System.out.println("You've found the Golden Pyramid!");
+                player.setFame(player.getFame() + 1000);
+                player.getInventory().addItem(new Treasure());
+                System.out.println("Do you wish to go to the next expedition? (y/n)");
+                String answer = scanner.nextLine();
+                if(answer.equals("y")) VisitMuseum();
+                player.setFoundPyramid(true);
+            }
+
             System.out.println("Player energy: " + player.getEnergy());
 
-            Update();
         } else {
             renderManager.RenderMap(HEIGHT,WIDTH,map);
             System.out.println("Invalid action");
             System.out.println("Actual tile: " + standingOnTile.getSymbol());
-            Update();
 
         }
+        Update();
 
     }
 
-    private boolean OutOfEnergy() {
+    private void UseEnergyItem(String[] playerInputWords) {
+        List<Slot> slots = player.getInventory().getSlots();
+        Collections.reverse(slots);
+        for (Slot slot : slots) {
+            if (slot.getName().equals(playerInputWords[1])) {
+                if (playerInputWords[1].equals("whiskey")) {
+                    player.increaseEnergy(((AbstractFoodItem) slot.getHeldItem()).getEnergyAmount() + player.getWhiskeyBonus());
+
+                    // We have companions
+                    if (randomManager.BecomesAddicted() && player.getCompanions().size() > 0 && whiskeyDrank > 1) {
+                        int randomCompanion;
+                        do{
+                            randomCompanion = randomManager.RandomCompanion(player.getCompanions().size());
+                        } while(!player.getCompanions().get(randomCompanion).isAddictedToWhiskey());
+                        player.getCompanions().get(randomCompanion).setAddictedToWhiskey(true);
+                        System.out.println("Oh no! " + player.getCompanions().get(randomCompanion).toString() + " became addicted to whiskey!");
+                    }
+                    // We don't have companions
+                    else if(randomManager.BecomesAddicted()) player.setAddictedToWhiskey(true);
+
+                    slot.decreaseHeldCount();
+                    Collections.reverse(slots);
+                    ResetWhiskeyWithraval();
+                    whiskeyDrank++;
+                    break;
+
+                } else if (playerInputWords[1].equals("drug")) {
+                    player.increaseEnergy(((AbstractFoodItem) slot.getHeldItem()).getEnergyAmount() + player.getDrugBonus());
+                        if (randomManager.BecomesAddicted() && player.getCompanions().size() > 0 && drugUsed > 1) {
+                            int randomCompanion;
+                            do{
+                                randomCompanion = randomManager.RandomCompanion(player.getCompanions().size());
+                            } while(!player.getCompanions().get(randomCompanion).isAddictedToDrug());
+                            player.getCompanions().get(randomCompanion).setAddictedToDrug(true);
+                            System.out.println("Oh no! " + player.getCompanions().get(randomCompanion).toString() + " became addicted to drugs!");
+                        }
+                        else if(randomManager.BecomesAddicted()) player.setAddictedToWhiskey(true);
+                    slot.decreaseHeldCount();
+                    Collections.reverse(slots);
+                    ResetDrugWithraval();
+                    drugUsed++;
+                    break;
+                } else {
+                    player.increaseEnergy(((AbstractFoodItem) slot.getHeldItem()).getEnergyAmount());
+                    slot.decreaseHeldCount();
+                    Collections.reverse(slots);
+                    whiskeyDrank = 0;
+                    drugUsed = 0;
+                    break;
+                }
+            }
+        }
+    }
+
+    private void OutOfEnergy() {
 
         //TODO: companions should always leave first
 
         if(player.getEnergy() <= 0){
             boolean isLeaving = randomManager.LeaveEvent();
-            if(isLeaving){
-                System.out.println("The explorer has left the party. \n Game Over.");
-                return true;
+
+            if(isLeaving && player.getCompanions().size() > 0){
+                int randomCompanion = randomManager.RandomCompanion(player.getCompanions().size());
+                System.out.println(player.getCompanions().get(randomCompanion) + " has left the party");
+                player.getCompanions().remove(player.getCompanions().get(randomCompanion));
+
+            } else if(isLeaving) {
+                System.out.println("Game Over");
+                System.exit(0);
             }
         }
-        return false;
+
     }
 
     private void CreateShipAndPyramid(int seaRowPos, int seaColPos) {
@@ -285,7 +326,17 @@ public class GameManager {
             case "companion":
                 if(standingOnTile.getSymbol() == 'V') {
                     Village village = (Village) standingOnTile;
-                    System.out.println(village.getCompanion());
+                    if(village.getCompanion() != null){
+                        System.out.println("A " + village.getCompanion() + " offers his services for 150 gold. \nDo you accept? (y/n)");
+                        String answer = scanner.nextLine();
+                        if(answer.equals("y") && player.getGold() >= 150 && player.getCompanions().size() < 3){
+                            player.getCompanions().add(village.getCompanion());
+                            player.setGold(player.getGold() - 150);
+                            System.out.println("You hired a " + village.getCompanion());
+                            village.setCompanion(null);
+                        }
+                    } else {System.out.println("It seems nobody wishes to join your party"); }
+
                 } else { System.out.println("We don't want to offer you anyone outsider");}
                 break;
             case "shop":
@@ -300,6 +351,7 @@ public class GameManager {
 
             case "inventory":
                 renderManager.RenderInventory(player.getInventory().getSlots());
+                System.out.println(player.getCompanions().toString());
                 break;
         }
     }
@@ -331,20 +383,8 @@ public class GameManager {
                 case "right":
                     return map[player.getRowPos()][player.getColPos()+1].isWalkable();
 
-                case "buy":
-
-                    return true;
-
-                case "map":
-                    return true;
-
-                case "inventory":
-                    return true;
-
                 default:
                     return true;
-
-
             }
         } catch(ArrayIndexOutOfBoundsException e) {
             System.out.println("You can't go out of bounds");
@@ -364,6 +404,66 @@ public class GameManager {
                     }
                 }
             }
+    }
+
+    private void UpdateWithravalStatus(){
+        for (AbstractCompanion companion : player.getCompanions()){
+            if (companion.getWhiskeyWithrawal() > 30 || companion.getDrugWithrawal() > 30){
+                if(randomManager.random.nextInt(10) == 0){
+                    player.getCompanions().remove(companion);
+                }
+            }
+            if (companion.isAddictedToWhiskey()) companion.setWhiskeyWithrawal(companion.getWhiskeyWithrawal() + 1);
+            if (companion.isAddictedToDrug()) companion.setDrugWithrawal( companion.getDrugWithrawal() + 1);
+        }
+    }
+
+    private void ResetWhiskeyWithraval(){
+        for (AbstractCompanion companion : player.getCompanions()){
+            companion.setWhiskeyWithrawal(0);
+        }
+    }
+
+    private void ResetDrugWithraval(){
+        for (AbstractCompanion companion : player.getCompanions()){
+            companion.setDrugWithrawal(0);
+        }
+    }
+
+    private void VisitMuseum(){
+
+        for (String rivalName : rivals.keySet()){
+            rivals.put(rivalName, rivals.get(rivalName)+ randomManager.random.nextInt(1500));
+        }
+
+        for(String rival : rivals.keySet()){
+            System.out.println( rival + " has " + rivals.get(rival) + " fame");
+        }
+
+        System.out.println("Your fame: "+ player.getFame());
+
+        for (Slot slot : player.getInventory().getSlots()){
+            try{
+                if (slot.getName().equals("treasure")){
+                    System.out.println("Do you wish to sell (s) a treasure for 250 gold, \ndonate (d) for 250 fame or \nkeep (k) the treaure?");
+                    String answer = scanner.nextLine();
+                    switch (answer){
+                        case "s":
+                            player.getInventory().removeItem(slot.getHeldItem());
+                            player.setGold(player.getGold() + 250);
+                            break;
+                        case "d":
+                            player.getInventory().removeItem(slot.getHeldItem());
+                            player.setFame(player.getFame() + 250);
+                            break;
+                        case "k":
+                            continue;
+                    }
+                }
+            } catch (NullPointerException e) { continue; }
+        }
+
+        StartLevel();
     }
 
 }
