@@ -90,7 +90,7 @@ public class GameManager {
             }
             renderManager.RenderShopInventory(startingShop.getVendorInventory().getSlots(), player);
             System.out.println(player.getCompanions().toString());
-        } while (playerInputWords.length < 2 || playerInputWords[0].equals("y"));
+        } while (!playerInputWords[0].equals("y"));
     }
 
     private void BuyFromShop(AbstractShop shop, String[] playerInputWords) {
