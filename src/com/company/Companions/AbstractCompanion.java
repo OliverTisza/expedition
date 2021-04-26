@@ -25,6 +25,7 @@ public abstract class AbstractCompanion {
         this.isAddictedToDrug = false;
     }
 
+
     public abstract void ApplyModifier(Player player);
 
     public abstract void DestroyModifier(Player player);

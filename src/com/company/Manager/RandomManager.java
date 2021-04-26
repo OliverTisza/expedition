@@ -76,6 +76,7 @@ public class RandomManager {
 
     }
 
+
     public int[] GeneratePyramidLocation(int HEIGHT,int WIDTH,int seaRowPos, int seaColPos){
         int pyramidRowPos = seaRowPos + random.nextInt(HEIGHT - seaRowPos);
         int pyramidColPos = seaColPos + random.nextInt(WIDTH - seaColPos);

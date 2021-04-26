@@ -121,37 +121,6 @@ public class GameManager {
         System.out.println(player.getCompanions().toString());
     }
 
-    public void CreateNewMap(){
-
-        int[] seaPos = randomManager.GenerateSeaPos(HEIGHT,WIDTH);
-
-        int seaRowPos = seaPos[0];
-        int seaColPos = seaPos[1];
-
-        System.out.println("Sea pos: "+seaRowPos +" "+ seaColPos );
-
-
-        // Sorrend fontos!
-        CreateWaterAndGround(seaRowPos, seaColPos);
-        randomManager.RandomizeGround(map, WIDTH, HEIGHT);
-        CreateShipAndPyramid(seaRowPos, seaColPos);
-
-        standingOnTile = new Ground();
-        standingOnTile.setExplored(true);
-
-        //AbstractCompanion startingCompanion = randomManager.GenerateCompanion(standingOnTile);
-
-        Explore();
-
-        renderManager = new RenderManager();
-        renderManager.RenderMap(HEIGHT,WIDTH,map);
-
-        // TMP
-
-        Update();
-
-
-    }
 
     public void Update(){
 
@@ -179,39 +148,44 @@ public class GameManager {
             Update();
         }
 
-        if(isValidAction(playerInputWords)){
 
-            OutOfEnergy();
-            UpdateWithravalStatus();
 
-            switch (playerInputWords[0]) {
-                case "move":
-                    ExecuteMoveAction(playerInputWords[1]);
-                    break;
-                case "show":
-                    ExecuteShowAction(playerInputWords[1]);
-                    break;
-                case "buy":
-                    if (standingOnTile.getSymbol() == 'V') BuyFromShop(((Village) standingOnTile).getVillageShop(), playerInputWords);
-                    break;
-                case "use":
-                    UseEnergyItem(playerInputWords);
-                    break;
-                case "sell":
-                    if(standingOnTile.getSymbol() == 'V'){
-                        for (Slot slot : player.getInventory().getSlots()){
-                            if(slot.getName().equals(playerInputWords[1])){
-                                player.setGold( player.getGold() + slot.getHeldItem().getSellCost());
-                                ((Village)standingOnTile).getVillageShop().getVendorInventory().addItem(slot.getHeldItem());
-                                slot.decreaseHeldCount();
-                            }
+        OutOfEnergy();
+        UpdateWithravalStatus();
+
+        switch (playerInputWords[0]) {
+            case "move":
+                if(isValidAction(playerInputWords)) ExecuteMoveAction(playerInputWords[1]);
+                else {
+                    renderManager.RenderMap(HEIGHT, WIDTH, map);
+                    System.out.println("Invalid action");
+                    System.out.println("Actual tile: " + standingOnTile.getSymbol());
+                }
+                break;
+            case "show":
+                ExecuteShowAction(playerInputWords[1]);
+                break;
+            case "buy":
+                if (standingOnTile.getSymbol() == 'V') BuyFromShop(((Village) standingOnTile).getVillageShop(), playerInputWords);
+                break;
+            case "use":
+                UseEnergyItem(playerInputWords);
+                break;
+            case "sell":
+                if(standingOnTile.getSymbol() == 'V'){
+                    for (Slot slot : player.getInventory().getSlots()){
+                        if(slot.getName().equals(playerInputWords[1])){
+                            player.setGold( player.getGold() + slot.getHeldItem().getSellCost());
+                            ((Village)standingOnTile).getVillageShop().getVendorInventory().addItem(slot.getHeldItem());
+                            slot.decreaseHeldCount();
                         }
-                        renderManager.RenderShopInventory(((Village)standingOnTile).getVillageShop().getVendorInventory().getSlots(), player);
                     }
-                    break;
-                case "go":
-                    if(playerInputWords[1].equals("home"))VisitMuseum();
-            }
+                    renderManager.RenderShopInventory(((Village)standingOnTile).getVillageShop().getVendorInventory().getSlots(), player);
+                }
+                break;
+            case "go":
+                if(playerInputWords[1].equals("home"))VisitMuseum();
+
 
             if(player.getEnergy() > 100) player.setEnergy(100);
 
@@ -224,15 +198,8 @@ public class GameManager {
                 if(answer.equals("y")) VisitMuseum();
                 player.setFoundPyramid(true);
             }
-
-            System.out.println("Player energy: " + player.getEnergy());
-
-        } else {
-            renderManager.RenderMap(HEIGHT,WIDTH,map);
-            System.out.println("Invalid action");
-            System.out.println("Actual tile: " + standingOnTile.getSymbol());
-
         }
+        System.out.println("Player energy: " + String.format("%.2f",player.getEnergy()));
         Update();
 
     }
@@ -312,6 +279,38 @@ public class GameManager {
 
     }
 
+    public void CreateNewMap(){
+
+        int[] seaPos = randomManager.GenerateSeaPos(HEIGHT,WIDTH);
+
+        int seaRowPos = seaPos[0];
+        int seaColPos = seaPos[1];
+
+        System.out.println("Sea pos: "+seaRowPos +" "+ seaColPos );
+
+
+        // Sorrend fontos!
+        CreateWaterAndGround(seaRowPos, seaColPos);
+        randomManager.RandomizeGround(map, WIDTH, HEIGHT);
+        CreateShipAndPyramid(seaRowPos, seaColPos);
+
+        standingOnTile = new Ground();
+        standingOnTile.setExplored(true);
+
+        //AbstractCompanion startingCompanion = randomManager.GenerateCompanion(standingOnTile);
+
+        Explore();
+
+        renderManager = new RenderManager();
+        renderManager.RenderMap(HEIGHT,WIDTH,map);
+
+        // TMP
+
+        Update();
+
+
+    }
+
     private void CreateShipAndPyramid(int seaRowPos, int seaColPos) {
 
         int[] uniquePos;
@@ -386,6 +385,7 @@ public class GameManager {
         renderManager.RenderMap(HEIGHT,WIDTH,map);
     }
 
+
     public boolean isValidAction(String[] playerInputWords){
         try {
             switch (playerInputWords[1]){
@@ -402,7 +402,7 @@ public class GameManager {
                     return map[player.getRowPos()][player.getColPos()+1].isWalkable();
 
                 default:
-                    return true;
+                    return false;
             }
         } catch(ArrayIndexOutOfBoundsException e) {
             System.out.println("You can't go out of bounds");
