@@ -76,16 +76,21 @@ public class GameManager {
     private void Preparation(StartingShop startingShop) {
         //renderManager.RenderShopInventory(startingShop.getVendorSlots(), player);
 
-        System.out.println("Continue to map? (y to continue)");
-        String playerInput = scanner.nextLine();
-        String[] playerInputWords = playerInput.split(" ");
+        String[] playerInputWords;
+        do{
+            System.out.println("Continue to map? (y to continue)");
+            String playerInput = scanner.nextLine();
+            playerInputWords = playerInput.split(" ");
 
-        if(playerInputWords[0].equals("y")) CreateNewMap();
+            if(playerInputWords[0].equals("y")) CreateNewMap();
 
-        else if(playerInputWords[0].equals("buy")) {
-            BuyFromShop(startingShop, playerInputWords);
-            Preparation(startingShop);
-        }
+            else if(playerInputWords[0].equals("buy")) {
+                BuyFromShop(startingShop, playerInputWords);
+                Preparation(startingShop);
+            }
+            renderManager.RenderShopInventory(startingShop.getVendorInventory().getSlots(), player);
+            System.out.println(player.getCompanions().toString());
+        } while (playerInputWords.length < 2 || playerInputWords[0].equals("y"));
     }
 
     private void BuyFromShop(AbstractShop shop, String[] playerInputWords) {
