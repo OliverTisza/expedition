@@ -2,9 +2,6 @@ package com.company.Manager;
 
 import com.company.Companions.AbstractCompanion;
 import com.company.Items.Food.AbstractFoodItem;
-import com.company.Items.Food.Chocolate;
-import com.company.Items.Food.Whiskey;
-import com.company.Items.Tools.Torch;
 import com.company.Items.Treasure;
 import com.company.Player.Player;
 import com.company.Player.Slot;
@@ -12,7 +9,10 @@ import com.company.Shops.AbstractShop;
 import com.company.Shops.StartingShop;
 import com.company.Tiles.*;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
 
 public class GameManager {
 
@@ -24,8 +24,8 @@ public class GameManager {
     private RenderManager renderManager = new RenderManager();
     Scanner scanner = new Scanner(System.in);
 
-    private Player player = new Player();
-    private HashMap<String, Integer> rivals = new HashMap<>()
+    private final Player player = new Player();
+    private final HashMap<String, Integer> rivals = new HashMap<>()
     {{
         put("Fredrick", 1000);
         put("Alvarez", 750);
@@ -39,10 +39,6 @@ public class GameManager {
 
     public void StartLevel(){
 
-        /*TODO offer companion
-           then show shop
-           then create new map
-         */
         AbstractCompanion purchasableCompanion = randomManager.GenerateCompanion(new Ship(0,0));
         System.out.println("You may hire <" + purchasableCompanion.toString() + "> as your new companion! The cost is: " + purchasableCompanion.getCost() + " gold pieces!");
         System.out.println("Would you like to hire? (y/n): ");
@@ -81,11 +77,11 @@ public class GameManager {
     private void Preparation(StartingShop startingShop) {
         //renderManager.RenderShopInventory(startingShop.getVendorSlots(), player);
 
-        System.out.println("Continue to map? (yes to continue)");
+        System.out.println("Continue to map? (y to continue)");
         String playerInput = scanner.nextLine();
         String[] playerInputWords = playerInput.split(" ");
 
-        if(playerInputWords[0].equals("yes")) CreateNewMap();
+        if(playerInputWords[0].equals("y")) CreateNewMap();
 
         else if(playerInputWords[0].equals("buy")) {
             BuyFromShop(startingShop, playerInputWords);
@@ -138,7 +134,7 @@ public class GameManager {
         standingOnTile = new Ground();
         standingOnTile.setExplored(true);
 
-        AbstractCompanion startingCompanion = randomManager.GenerateCompanion(standingOnTile);
+        //AbstractCompanion startingCompanion = randomManager.GenerateCompanion(standingOnTile);
 
         Explore();
 
@@ -274,6 +270,7 @@ public class GameManager {
             if(isLeaving && player.getCompanions().size() > 0){
                 int randomCompanion = randomManager.RandomCompanion(player.getCompanions().size());
                 System.out.println(player.getCompanions().get(randomCompanion) + " has left the party");
+                player.getCompanions().get(randomCompanion).DestroyModifier(player);
                 player.getCompanions().remove(player.getCompanions().get(randomCompanion));
 
             } else if(isLeaving) {
@@ -399,8 +396,7 @@ public class GameManager {
                 for( int j = player.getVisionRange()*-1; j <= player.getVisionRange(); j++){
                     try{
                     map[player.getRowPos()+i][player.getColPos()+j].setExplored(true);
-                    } catch (ArrayIndexOutOfBoundsException e){
-                        continue;
+                    } catch (ArrayIndexOutOfBoundsException ignored){
                     }
                 }
             }
@@ -432,9 +428,7 @@ public class GameManager {
 
     private void VisitMuseum(){
 
-        for (String rivalName : rivals.keySet()){
-            rivals.put(rivalName, rivals.get(rivalName)+ randomManager.random.nextInt(1500));
-        }
+        rivals.replaceAll((n, v) -> rivals.get(n) + randomManager.random.nextInt(1500));
 
         for(String rival : rivals.keySet()){
             System.out.println( rival + " has " + rivals.get(rival) + " fame");
@@ -457,12 +451,11 @@ public class GameManager {
                             player.setFame(player.getFame() + 250);
                             break;
                         case "k":
-                            continue;
                     }
                 }
-            } catch (NullPointerException e) { continue; }
+            } catch (NullPointerException ignored) {
+            }
         }
-
         StartLevel();
     }
 

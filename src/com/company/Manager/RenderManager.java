@@ -29,15 +29,11 @@ public class RenderManager {
 
         for(int i = 0; i < height; i++){
             for (int j = 0; j < width; j++){
-
-                System.out.print(map[i][j].getSymbol() + " ");
-                /*
+                //System.out.print(map[i][j].getSymbol() + " ");
                 if (map[i][j].isExplored()){
                     System.out.print(map[i][j].getSymbol() + " ");
                 }
                 else { System.out.print("x ");}
-                 */
-
             }
             System.out.println();
         }
@@ -45,11 +41,9 @@ public class RenderManager {
     }
 
     public void RenderInventory(List<Slot> slots){
-
         for( Slot slot : slots){
             System.out.println(slot.getName() +": "+ slot.getHeldCount());
         }
-
     }
 
     public void RenderShopInventory(Slot[] vendorSlots, Player player){
