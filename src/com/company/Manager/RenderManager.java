@@ -5,8 +5,10 @@ import com.company.Player.Inventory;
 import com.company.Player.Player;
 import com.company.Player.Slot;
 import com.company.Tiles.AbstractTileObject;
+import com.company.Tiles.Village;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class RenderManager {
 
@@ -59,6 +61,22 @@ public class RenderManager {
         System.out.println("My inventory:");
         RenderInventory(player.getInventory().getSlots());
 
+    }
+
+    public void RenderVillageCompanion(AbstractTileObject standingOnTile, Player player) {
+        Scanner scanner = new Scanner(System.in);
+
+        Village village = (Village) standingOnTile;
+        if(village.getCompanion() != null){
+            System.out.println("A " + village.getCompanion() + " offers his services for 150 gold. \nDo you accept? (y/n)");
+            String answer = scanner.nextLine();
+            if(answer.equals("y") && player.getGold() >= 150 && player.getCompanions().size() < 3){
+                player.getCompanions().add(village.getCompanion());
+                player.setGold(player.getGold() - 150);
+                System.out.println("You hired a " + village.getCompanion());
+                village.setCompanion(null);
+            } else { System.out.println("Maybe another time"); }
+        } else {System.out.println("It seems nobody wishes to join your party"); }
     }
 
 }

@@ -60,7 +60,6 @@ public class GameManager {
             }
         }
 
-
         StartingShop startingShop = new StartingShop();
         renderManager.RenderShopInventory(startingShop.getVendorSlots(), player);
         System.out.println(player.getCompanions().toString());
@@ -322,17 +321,7 @@ public class GameManager {
         switch (playerInputWord){
             case "companion":
                 if(standingOnTile.getSymbol() == 'V') {
-                    Village village = (Village) standingOnTile;
-                    if(village.getCompanion() != null){
-                        System.out.println("A " + village.getCompanion() + " offers his services for 150 gold. \nDo you accept? (y/n)");
-                        String answer = scanner.nextLine();
-                        if(answer.equals("y") && player.getGold() >= 150 && player.getCompanions().size() < 3){
-                            player.getCompanions().add(village.getCompanion());
-                            player.setGold(player.getGold() - 150);
-                            System.out.println("You hired a " + village.getCompanion());
-                            village.setCompanion(null);
-                        }
-                    } else {System.out.println("It seems nobody wishes to join your party"); }
+                    renderManager.RenderVillageCompanion(standingOnTile,player);
 
                 } else { System.out.println("We don't want to offer you anyone outsider");}
                 break;
