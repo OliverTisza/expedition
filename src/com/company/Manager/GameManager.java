@@ -150,6 +150,18 @@ public class GameManager {
 
     public void Update(){
 
+
+        if(standingOnTile.getSymbol() == 'J'){
+            for(Slot slot : player.getInventory().getSlots()) {
+                if (slot.getName().equals("machete")) {
+                    slot.decreaseHeldCount();
+                    standingOnTile = new Ground();
+                    return;
+                }
+            }
+            player.setEnergy(player.getEnergy() - (1 + player.getInventory().getOverCommitmentPenalty() + (player.getCompanions().size() * 0.15f)));
+        }
+
         System.out.println("What would you like to do?");
         String playerInput = scanner.nextLine();
 
