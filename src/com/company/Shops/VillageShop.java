@@ -13,7 +13,7 @@ import java.util.Random;
 public class VillageShop extends AbstractShop{
 
     public VillageShop(){
-        super(5, new AbstractItem[]{ new Torch(20,20),new Rope(20,20), new Meat(), new Drug() , new Fruit() });
+        super(new AbstractItem[]{ new Torch(20,20),new Rope(20,20), new Meat(), new Drug() , new Fruit() });
 
     }
 

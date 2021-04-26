@@ -13,7 +13,7 @@ import java.util.Random;
 public class StartingShop extends AbstractShop{
 
     public StartingShop() {
-        super(7, new AbstractItem[]{ new Marble(10,10),new Torch(20,20),new Rope(20,20),
+        super(new AbstractItem[]{ new Marble(10,10),new Torch(20,20),new Rope(20,20),
                         new Machete(20,20), new Chocolate(), new Whiskey(), new Meat() });
     }
 }

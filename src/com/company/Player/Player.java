@@ -66,7 +66,7 @@ public class Player extends AbstractTileObject {
             }
 
             if(getEnergy() > 0){
-                setEnergy(getEnergy() - (1 + inventory.getOverCommitmentPenalty()) - (companions.size() * 0.15f) );
+                setEnergy(getEnergy() - (1 + inventory.getOverCommitmentPenalty() + (companions.size() * 0.15f)) );
             }
 
 

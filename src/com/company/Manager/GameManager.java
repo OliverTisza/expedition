@@ -61,7 +61,7 @@ public class GameManager {
         }
 
         StartingShop startingShop = new StartingShop();
-        renderManager.RenderShopInventory(startingShop.getVendorSlots(), player);
+        renderManager.RenderShopInventory(startingShop.getVendorInventory().getSlots(), player);
         System.out.println(player.getCompanions().toString());
 
         player.ActivateSages();
@@ -89,29 +89,30 @@ public class GameManager {
     }
 
     private void BuyFromShop(AbstractShop shop, String[] playerInputWords) {
-        for(Slot slot : shop.getVendorSlots()){
+        for(Slot slot : shop.getVendorInventory().getSlots()){
             if(slot.getName().equals(playerInputWords[1]) && player.getGold() > 0){
                 if(playerInputWords.length > 2){
                     try{
                         for (int i = 0; i < Integer.parseInt(playerInputWords[2]); i++){
                             player.getInventory().addItem(slot.getHeldItem());
-                            slot.decreaseHeldCount();
                             player.setGold(player.getGold() - slot.getHeldItem().getBuyCost());
+                            slot.decreaseHeldCount();
                         }
 
                     } catch (NullPointerException e){
                         System.out.println("I don't have any more");
                     }
                 } else{
+
                     player.getInventory().addItem(slot.getHeldItem());
-                    slot.decreaseHeldCount();
                     player.setGold(player.getGold() - slot.getHeldItem().getBuyCost());
+                    slot.decreaseHeldCount();
                 }
 
             }
 
         }
-        renderManager.RenderShopInventory(shop.getVendorSlots(), player);
+        renderManager.RenderShopInventory(shop.getVendorInventory().getSlots(), player);
         System.out.println(player.getCompanions().toString());
     }
 
@@ -175,7 +176,21 @@ public class GameManager {
                     break;
                 case "buy":
                     if (standingOnTile.getSymbol() == 'V') BuyFromShop(((Village) standingOnTile).getVillageShop(), playerInputWords);
-                    else if (playerInputWords[0].equals("use")) UseEnergyItem(playerInputWords);
+                    break;
+                case "use":
+                    UseEnergyItem(playerInputWords);
+                    break;
+                case "sell":
+                    if(standingOnTile.getSymbol() == 'V'){
+                        for (Slot slot : player.getInventory().getSlots()){
+                            if(slot.getName().equals(playerInputWords[1])){
+                                player.setGold( player.getGold() + slot.getHeldItem().getSellCost());
+                                ((Village)standingOnTile).getVillageShop().getVendorInventory().addItem(slot.getHeldItem());
+                                slot.decreaseHeldCount();
+                            }
+                        }
+                        renderManager.RenderShopInventory(((Village)standingOnTile).getVillageShop().getVendorInventory().getSlots(), player);
+                    }
                     break;
                 case "go":
                     if(playerInputWords[1].equals("home"))VisitMuseum();
@@ -328,7 +343,7 @@ public class GameManager {
             case "shop":
                 if(standingOnTile.getSymbol() == 'V') {
                     Village village = (Village) standingOnTile;
-                    renderManager.RenderShopInventory(village.getVillageShop().getVendorSlots(), player);
+                    renderManager.RenderShopInventory(village.getVillageShop().getVendorInventory().getSlots(), player);
                 }
                 break;
             case "map":

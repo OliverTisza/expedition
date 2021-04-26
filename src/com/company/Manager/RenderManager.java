@@ -48,7 +48,7 @@ public class RenderManager {
         }
     }
 
-    public void RenderShopInventory(Slot[] vendorSlots, Player player){
+    public void RenderShopInventory(List<Slot> vendorSlots, Player player){
         System.out.println("\nShop inventory:");
         for( Slot slot : vendorSlots){
             try {
