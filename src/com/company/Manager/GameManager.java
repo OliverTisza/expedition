@@ -131,27 +131,33 @@ public class GameManager {
      */
     private void BuyFromShop(AbstractShop shop, String[] playerInputWords) {
         for(Slot slot : shop.getVendorInventory().getSlots()){
-            if(slot.getName().equals(playerInputWords[1]) && player.getGold() > 0){
+            if(slot.getName().equals(playerInputWords[1])){
                 if(playerInputWords.length > 2){
                     try{
                         for (int i = 0; i < Integer.parseInt(playerInputWords[2]); i++){
-                            player.getInventory().addItem(slot.getHeldItem());
-                            player.setGold(player.getGold() + player.getTraderSellModifier() - slot.getHeldItem().getBuyCost());
-                            slot.decreaseHeldCount();
+                            if(player.getGold() + player.getTraderSellModifier() >= slot.getHeldItem().getBuyCost()) {
+                                player.getInventory().addItem(slot.getHeldItem());
+                                player.setGold(player.getGold() + player.getTraderSellModifier() - slot.getHeldItem().getBuyCost());
+                                slot.decreaseHeldCount();
+                            }else {
+                                System.out.println("You ran out of money matey! Come back when you have more!");
+                                return;
+                            }
                         }
-
                     } catch (NullPointerException e){
                         System.out.println("I don't have any more");
                     }
                 } else{
-
-                    player.getInventory().addItem(slot.getHeldItem());
-                    player.setGold(player.getGold() + player.getTraderSellModifier() - slot.getHeldItem().getBuyCost());
-                    slot.decreaseHeldCount();
+                    if(player.getGold() + player.getTraderSellModifier() >= slot.getHeldItem().getBuyCost()) {
+                        player.getInventory().addItem(slot.getHeldItem());
+                        player.setGold(player.getGold() + player.getTraderSellModifier() - slot.getHeldItem().getBuyCost());
+                        slot.decreaseHeldCount();
+                    }else {
+                        System.out.println("You ran out of money matey! Come back when you have more!");
+                        return;
+                    }
                 }
-
             }
-
         }
         renderManager.RenderShopInventory(shop.getVendorInventory().getSlots(), player);
         System.out.println(player.getCompanions().toString());
