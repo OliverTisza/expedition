@@ -63,13 +63,18 @@ public class GameManager {
         System.out.println("Valid actions unless specified otherwise. (you can view these when you are on an expedition by typing 'show help' ");
         renderManager.RenderHelp();
 
+        // TODO: For testing
+        //player.setGold(1000);
+        //player.getInventory().addItem(new Treasure());
+        //player.getInventory().addItem(new Treasure());
+        // TODO: Testing end
+
+
         StartingShop startingShop = new StartingShop();
         renderManager.RenderShopInventory(startingShop.getVendorInventory().getSlots(), player);
         System.out.println(player.getCompanions().toString());
 
         player.ActivateSages();
-
-        player.setGold(1000);
 
         Preparation(startingShop);
 
