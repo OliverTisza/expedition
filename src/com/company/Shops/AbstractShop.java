@@ -11,10 +11,12 @@ import com.company.Items.Tools.Torch;
 import com.company.Player.Inventory;
 import com.company.Player.Slot;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class AbstractShop {
+public class AbstractShop implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     Inventory vendorInventory = new Inventory();
     AbstractItem[] vendorItems;
     Random random = new Random();

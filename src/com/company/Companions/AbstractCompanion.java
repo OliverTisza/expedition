@@ -2,8 +2,11 @@ package com.company.Companions;
 
 import com.company.Player.Player;
 
-public abstract class AbstractCompanion {
+import java.io.Serializable;
 
+public abstract class AbstractCompanion implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     private int cost;
     private int drugWithrawal;
     private int whiskeyWithrawal;

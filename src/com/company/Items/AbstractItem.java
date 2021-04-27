@@ -1,7 +1,10 @@
 package com.company.Items;
 
-public abstract class AbstractItem {
+import java.io.Serializable;
 
+public abstract class AbstractItem implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     private int buyCost;
     private int sellCost;
     protected boolean isStackable;

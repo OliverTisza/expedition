@@ -7,11 +7,13 @@ import com.company.Player.Slot;
 import com.company.Tiles.AbstractTileObject;
 import com.company.Tiles.Village;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Scanner;
 
-public class RenderManager {
+public class RenderManager implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     /*
     int height;
     int width;
@@ -116,6 +118,8 @@ public class RenderManager {
         System.out.println("buy <item> <optional quanity>: buy item from shop");
         System.out.println("sell <item>: sell item to shop");
         System.out.println("go home: finish expedition, starts next one");
+        System.out.println("save: saves the game");
+        System.out.println("load: loads the game");
     }
 
     /**

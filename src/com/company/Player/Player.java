@@ -3,11 +3,13 @@ package com.company.Player;
 import com.company.Companions.AbstractCompanion;
 import com.company.Tiles.AbstractTileObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player extends AbstractTileObject {
+public class Player extends AbstractTileObject implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private float energy;
     private int gold;
     private int rep;

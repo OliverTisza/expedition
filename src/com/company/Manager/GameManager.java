@@ -14,33 +14,35 @@ import com.company.Shops.AbstractShop;
 import com.company.Shops.StartingShop;
 import com.company.Tiles.*;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-public class GameManager {
+public class GameManager implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private final int HEIGHT = 10;
     private final int WIDTH = 20;
-    private final AbstractTileObject[][] map = new AbstractTileObject[HEIGHT][WIDTH];
+    public  AbstractTileObject[][] map = new AbstractTileObject[HEIGHT][WIDTH];
     private final RandomManager randomManager = new RandomManager();
 
     private RenderManager renderManager = new RenderManager();
-    Scanner scanner = new Scanner(System.in);
+    transient Scanner scanner = new Scanner(System.in);
 
-    private final Player player = new Player();
-    private final HashMap<String, Integer> rivals = new HashMap<>()
+    public Player player = new Player();
+    public HashMap<String, Integer> rivals = new HashMap<>()
     {{
         put("Fredrick", 1000);
         put("Alvarez", 750);
         put("Wordsworth", 500);
         put("Lee", 0);
     }};
-    private AbstractTileObject standingOnTile;
+    public AbstractTileObject standingOnTile;
 
-    private int whiskeyDrank = 0;
-    private int drugUsed = 0;
+    public int whiskeyDrank = 0;
+    public int drugUsed = 0;
 
     private boolean isBeforeFirstMap = true;
 
@@ -172,10 +174,19 @@ public class GameManager {
      * Az egy kör eltelésével szükséges adatok frissítése
      */
     public void Update(){
+
+        //ONLY FOR TESTING
+
+        SaveLoadManager saveLoadManager = new SaveLoadManager();
+
         if(standingOnTile.getSymbol() == 'J') JungleCondition();
 
         System.out.println("What would you like to do?");
         String playerInput = scanner.nextLine();
+
+        if(playerInput.equals("save")) saveLoadManager.SaveGame(map,player,rivals,standingOnTile,whiskeyDrank,drugUsed);
+        if(playerInput.equals("load")) saveLoadManager.LoadGame(this);
+
         String[] playerInputWords = playerInput.split(" ");
         if(playerInputWords.length < 2){
             renderManager.RenderMap(HEIGHT,WIDTH,map);

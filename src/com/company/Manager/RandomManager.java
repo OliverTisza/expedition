@@ -3,10 +3,12 @@ package com.company.Manager;
 import com.company.Companions.*;
 import com.company.Tiles.*;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
-public class RandomManager {
+public class RandomManager implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     Random random = new Random();
 
