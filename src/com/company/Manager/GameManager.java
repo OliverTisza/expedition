@@ -42,6 +42,8 @@ public class GameManager {
     private int whiskeyDrank = 0;
     private int drugUsed = 0;
 
+    private boolean isBeforeFirstMap = true;
+
     /**
      * Ajánl egy csapattársat, majd továbbléptet a boltba vásárolni az expedíció előtt
      */
@@ -112,9 +114,12 @@ public class GameManager {
                 System.out.println("Your reputation: " + player.getRep());
                 CreateNewMap();
             }
-
             else if(playerInputWords[0].equals("buy")) {
                 BuyFromShop(startingShop, playerInputWords);
+                Preparation(startingShop);
+            }
+            else if(playerInputWords[0].equals("sell")) {
+                SellToShop(playerInputWords,startingShop);
                 Preparation(startingShop);
             }
             renderManager.RenderShopInventory(startingShop.getVendorInventory().getSlots(), player);
@@ -122,6 +127,7 @@ public class GameManager {
             System.out.println("Valid actions unless specified otherwise. (you can view these when you are on an expedition by typing 'show help' ");
             renderManager.RenderHelp();
         } while (!playerInputWords[0].equals("y"));
+        isBeforeFirstMap = false;
     }
 
     /**
@@ -253,6 +259,23 @@ public class GameManager {
             }
         }
         renderManager.RenderShopInventory(((Village)standingOnTile).getVillageShop().getVendorInventory().getSlots(), player);
+    }
+
+    /**
+     * A játékos elad egy tárgyat a boltnak
+     * @param playerInputWords az eladni kívánt tárgy
+     * @param shop a shop object aminek az inventory- ját használjuk
+     */
+    private void SellToShop(String[] playerInputWords, AbstractShop shop) {
+        for (Slot slot : player.getInventory().getSlots()){
+            if(slot.getName().equals(playerInputWords[1])){
+                player.setGold( player.getGold() + slot.getHeldItem().getSellCost() + player.getTraderSellModifier());
+                shop.getVendorInventory().addItem(slot.getHeldItem());
+                slot.decreaseHeldCount();
+                break;
+            }
+        }
+        renderManager.RenderShopInventory(shop.getVendorInventory().getSlots(), player);
     }
 
     /**
