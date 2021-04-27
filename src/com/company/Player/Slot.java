@@ -3,8 +3,11 @@ package com.company.Player;
 import com.company.Items.AbstractItem;
 import com.company.Items.ItemAddResult;
 
-public class Slot {
+import java.io.Serializable;
 
+public class Slot implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     private AbstractItem heldItem;
     private int heldCount;
     private int size;
