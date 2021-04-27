@@ -79,4 +79,35 @@ public class RenderManager {
         } else {System.out.println("It seems nobody wishes to join your party"); }
     }
 
+    public void RenderHelp(){
+        System.out.println("move up: moves you upwards");
+        System.out.println("move left: moves you left");
+        System.out.println("move down: moves you downwards");
+        System.out.println("move right: moves you right");
+        System.out.println("show map: renders the map");
+        System.out.println("show inventory: renders your inventory");
+        System.out.println("show shop: renders the village's shop's inventory and your inventory");
+        System.out.println("show companion: shows the village's companion offer");
+        System.out.println("show legend: shows which tile corresponds to which letter on the map");
+        System.out.println("buy <item> <optional quanity>: buy item from shop");
+        System.out.println("sell <item>: sell item to shop");
+        System.out.println("go home: finish expedition, starts next one");
+    }
+
+    public void RenderLegend(){
+        System.out.println("A - Altar");
+        System.out.println("C - Cave");
+        System.out.println("G - Ground");
+        System.out.println("J - Jungle");
+        System.out.println("l - lake");
+        System.out.println("M - Mountain");
+        System.out.println("P - Pyramid");
+        System.out.println("S - Sea");
+        System.out.println("H - Ship");
+        System.out.println("V - Village");
+        System.out.println("g - Wet ground");
+        System.out.println("* - Player");
+        System.out.println("x - Undiscovered");
+    }
+
 }

@@ -60,6 +60,9 @@ public class GameManager {
             }
         }
 
+        System.out.println("Valid actions unless specified otherwise. (you can view these when you are on an expedition by typing 'show help' ");
+        renderManager.RenderHelp();
+
         StartingShop startingShop = new StartingShop();
         renderManager.RenderShopInventory(startingShop.getVendorInventory().getSlots(), player);
         System.out.println(player.getCompanions().toString());
@@ -76,6 +79,7 @@ public class GameManager {
     private void Preparation(StartingShop startingShop) {
         //renderManager.RenderShopInventory(startingShop.getVendorSlots(), player);
 
+
         String[] playerInputWords;
         do{
             System.out.println("Continue to map? (y to continue)");
@@ -90,6 +94,8 @@ public class GameManager {
             }
             renderManager.RenderShopInventory(startingShop.getVendorInventory().getSlots(), player);
             System.out.println(player.getCompanions().toString());
+            System.out.println("Valid actions unless specified otherwise. (you can view these when you are on an expedition by typing 'show help' ");
+            renderManager.RenderHelp();
         } while (!playerInputWords[0].equals("y"));
     }
 
@@ -369,6 +375,12 @@ public class GameManager {
             case "inventory":
                 renderManager.RenderInventory(player.getInventory().getSlots());
                 System.out.println(player.getCompanions().toString());
+                break;
+            case "help":
+                renderManager.RenderHelp();
+                break;
+            case "legend":
+                renderManager.RenderLegend();
                 break;
         }
     }
