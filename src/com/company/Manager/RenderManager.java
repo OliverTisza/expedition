@@ -93,6 +93,7 @@ public class RenderManager {
             if(answer.equals("y") && player.getGold() >= 150 && player.getCompanions().size() < 3){
                 player.getCompanions().add(village.getCompanion());
                 player.setGold(player.getGold() - 150);
+                village.getCompanion().ApplyModifier(player);
                 System.out.println("You hired a " + village.getCompanion());
                 village.setCompanion(null);
             } else { System.out.println("Maybe another time"); }

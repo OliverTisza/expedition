@@ -1,7 +1,10 @@
 package com.company.Manager;
 
 import com.company.Companions.AbstractCompanion;
+import com.company.Companions.Scout;
 import com.company.Items.Food.AbstractFoodItem;
+import com.company.Items.Food.Drug;
+import com.company.Items.Food.Whiskey;
 import com.company.Items.Treasure;
 import com.company.Player.Player;
 import com.company.Player.Slot;
@@ -70,6 +73,11 @@ public class GameManager {
         //player.setGold(1000);
         //player.getInventory().addItem(new Treasure());
         //player.getInventory().addItem(new Treasure());
+        player.getCompanions().add(new Scout());
+        player.getCompanions().get(player.getCompanions().size() - 1).ApplyModifier(player);
+        for(int i = 0; i < 30; i++){
+            player.getInventory().addItem(new Drug());
+        }
         // TODO: Testing end
 
 
@@ -148,8 +156,12 @@ public class GameManager {
      * Az egy kör eltelésével szükséges adatok frissítése
      */
     public void Update(){
+        //TODO TEST
+        System.out.println(player.getCompanions().get(0).getDrugWithrawal());
+        //TODO END OF TEST
+
         if(standingOnTile.getSymbol() == 'J') JungleCondition();
-        
+
         System.out.println("What would you like to do?");
         String playerInput = scanner.nextLine();
         String[] playerInputWords = playerInput.split(" ");
@@ -271,15 +283,23 @@ public class GameManager {
      */
     private void UseDrug(List<Slot> slots, Slot slot) {
         player.increaseEnergy(((AbstractFoodItem) slot.getHeldItem()).getEnergyAmount() + player.getDrugBonus());
-        if (randomManager.BecomesAddicted() && player.getCompanions().size() > 0 && drugUsed > 1) {
+        if (randomManager.BecomesAddicted() && player.getCompanions().size() > 0 && drugUsed > 1 ) {
             int randomCompanion;
+            int tries = 10;
             do{
                 randomCompanion = randomManager.RandomCompanion(player.getCompanions().size());
-            } while(!player.getCompanions().get(randomCompanion).isAddictedToDrug());
+                tries--;
+                if(tries == 0) break;
+            } while(player.getCompanions().get(randomCompanion).isAddictedToDrug());
+            if(!player.getCompanions().get(randomCompanion).isAddictedToDrug()) System.out.println("Oh no! "+ player.getCompanions().get(randomCompanion) + " became addicted to drugs!");
             player.getCompanions().get(randomCompanion).setAddictedToDrug(true);
-            System.out.println("Oh no! " + player.getCompanions().get(randomCompanion).toString() + " became addicted to drugs!");
+
         }
-        else if(randomManager.BecomesAddicted()) player.setAddictedToWhiskey(true);
+        else if(randomManager.BecomesAddicted() && drugUsed > 1 && !player.isAddictedToDrug()){
+            player.setAddictedToWhiskey(true);
+            System.out.println("Oh no! You became addicted to drugs!");
+
+        }
         slot.decreaseHeldCount();
         Collections.reverse(slots);
         ResetDrugWithraval();
@@ -299,14 +319,20 @@ public class GameManager {
         // We have companions
         if (randomManager.BecomesAddicted() && player.getCompanions().size() > 0 && whiskeyDrank > 1) {
             int randomCompanion;
+            int tries = 10;
             do{
                 randomCompanion = randomManager.RandomCompanion(player.getCompanions().size());
-            } while(!player.getCompanions().get(randomCompanion).isAddictedToWhiskey());
+                tries--;
+                if(tries == 0) break;
+            } while(player.getCompanions().get(randomCompanion).isAddictedToWhiskey());
+            if(!player.getCompanions().get(randomCompanion).isAddictedToWhiskey()) System.out.println("Oh no! "+ player.getCompanions().get(randomCompanion) + " became addicted to whiskey!");
             player.getCompanions().get(randomCompanion).setAddictedToWhiskey(true);
-            System.out.println("Oh no! " + player.getCompanions().get(randomCompanion).toString() + " became addicted to whiskey!");
         }
         // We don't have companions
-        else if(randomManager.BecomesAddicted()) player.setAddictedToWhiskey(true);
+        else if(randomManager.BecomesAddicted() && drugUsed > 1 && !player.isAddictedToWhiskey()){
+            System.out.println("Oh no! You became addicted to whiskey!");
+            player.setAddictedToWhiskey(true);
+        }
 
         slot.decreaseHeldCount();
         Collections.reverse(slots);
@@ -522,6 +548,8 @@ public class GameManager {
         for (AbstractCompanion companion : player.getCompanions()){
             if (companion.getWhiskeyWithrawal() > 30 || companion.getDrugWithrawal() > 30){
                 if(randomManager.random.nextInt(10) == 0){
+                    System.out.println("Due to withrawals " + companion + " has left the party");
+                    companion.DestroyModifier(player);
                     player.getCompanions().remove(companion);
                 }
             }
