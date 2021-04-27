@@ -271,8 +271,6 @@ public class GameManager {
 
     private void OutOfEnergy() {
 
-        //TODO: companions should always leave first
-
         if(player.getEnergy() <= 0){
             boolean isLeaving = randomManager.LeaveEvent();
 
@@ -362,10 +360,10 @@ public class GameManager {
     private void ExecuteShowAction(String playerInputWord) {
         switch (playerInputWord){
             case "companion":
-                if(standingOnTile.getSymbol() == 'V') {
+                if(standingOnTile.getSymbol() == 'V' && player.getRep() > 2 && randomManager.random.nextInt(5) == 0) {
                     renderManager.RenderVillageCompanion(standingOnTile,player);
 
-                } else { System.out.println("We don't want to offer you anyone outsider");}
+                } else { System.out.println("You meet with some locals but none seem to be interested in your expedition");}
                 break;
             case "shop":
                 if(standingOnTile.getSymbol() == 'V') {
