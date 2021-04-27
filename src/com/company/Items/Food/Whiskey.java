@@ -4,7 +4,7 @@ import com.company.Player.Player;
 
 public class Whiskey extends AbstractFoodItem{
     public Whiskey() {
-        super(20, true,"whiskey",0,0);
+        super(20, true,"whiskey",20,20);
     }
 
     @Override

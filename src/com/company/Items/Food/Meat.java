@@ -6,7 +6,7 @@ public class Meat extends AbstractFoodItem{
 
 
     public Meat() {
-        super(25, false,"meat",0,0);
+        super(25, false,"meat",20,20);
     }
 
     @Override

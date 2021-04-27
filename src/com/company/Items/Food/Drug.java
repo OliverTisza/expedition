@@ -4,7 +4,7 @@ import com.company.Player.Player;
 
 public class Drug extends AbstractFoodItem{
     public Drug() {
-        super(20, true,"drug",0,0);
+        super(20, true,"drug",20,20);
     }
 
     @Override
