@@ -7,11 +7,13 @@ import com.company.Player.Slot;
 import com.company.Tiles.AbstractTileObject;
 import com.company.Tiles.Village;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Scanner;
 
-public class RenderManager {
+public class RenderManager implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     /*
     int height;
     int width;

@@ -1,7 +1,10 @@
 package com.company.Tiles;
 
-public abstract class AbstractTileObject {
+import java.io.Serializable;
 
+public abstract class AbstractTileObject implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     private boolean isExplored;
     private boolean isWalkable;
     private char symbol;
