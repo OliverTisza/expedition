@@ -29,7 +29,7 @@ public class Player extends AbstractTileObject {
     private List<AbstractCompanion> companions = new ArrayList<AbstractCompanion>();
 
     private int plusRepFromSagesOnNextMap;
-    private float traderSellModifier;
+    private int traderSellModifier;
 
 
     public Player() {
@@ -44,7 +44,7 @@ public class Player extends AbstractTileObject {
         this.visionRange = 1;
         this.whiskeyBonus = 0;
         this.plusRepFromSagesOnNextMap = 0;
-        this.traderSellModifier = 1.0f;
+        this.traderSellModifier = 0;
     }
 
     /**
@@ -187,11 +187,11 @@ public class Player extends AbstractTileObject {
         this.plusRepFromSagesOnNextMap = plusRepFromSagesOnNextMap;
     }
 
-    public float getTraderSellModifier() {
+    public int getTraderSellModifier() {
         return traderSellModifier;
     }
 
-    public void setTraderSellModifier(float traderSellModifier) {
+    public void setTraderSellModifier(int traderSellModifier) {
         this.traderSellModifier = traderSellModifier;
     }
 

@@ -131,7 +131,7 @@ public class GameManager {
                     try{
                         for (int i = 0; i < Integer.parseInt(playerInputWords[2]); i++){
                             player.getInventory().addItem(slot.getHeldItem());
-                            player.setGold(player.getGold() - slot.getHeldItem().getBuyCost());
+                            player.setGold(player.getGold() + player.getTraderSellModifier() - slot.getHeldItem().getBuyCost());
                             slot.decreaseHeldCount();
                         }
 
@@ -141,7 +141,7 @@ public class GameManager {
                 } else{
 
                     player.getInventory().addItem(slot.getHeldItem());
-                    player.setGold(player.getGold() - slot.getHeldItem().getBuyCost());
+                    player.setGold(player.getGold() + player.getTraderSellModifier() - slot.getHeldItem().getBuyCost());
                     slot.decreaseHeldCount();
                 }
 
@@ -240,7 +240,7 @@ public class GameManager {
     private void SellToShop(String[] playerInputWords) {
         for (Slot slot : player.getInventory().getSlots()){
             if(slot.getName().equals(playerInputWords[1])){
-                player.setGold( player.getGold() + slot.getHeldItem().getSellCost());
+                player.setGold( player.getGold() + slot.getHeldItem().getSellCost() + player.getTraderSellModifier());
                 ((Village)standingOnTile).getVillageShop().getVendorInventory().addItem(slot.getHeldItem());
                 slot.decreaseHeldCount();
             }
