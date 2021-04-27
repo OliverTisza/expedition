@@ -85,7 +85,6 @@ public class Player extends AbstractTileObject {
      * Növeli a játékos energiáját a megadott mennyiséggel
      * @param energyAmount megadott mennyiség
      */
-
     public void increaseEnergy(float energyAmount){
 
         setEnergy(energy + energyAmount);
@@ -95,7 +94,6 @@ public class Player extends AbstractTileObject {
     /**
      * A bölcsek növelik a viszonyt
      */
-
     public void ActivateSages() {
         rep += plusRepFromSagesOnNextMap;
         plusRepFromSagesOnNextMap = 0;

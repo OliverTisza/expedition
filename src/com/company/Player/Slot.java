@@ -52,7 +52,6 @@ public class Slot {
      * @param item az eltárolandó tárgy
      * @return az eltárolandó tárgy és az adott rekesz viszonya
      */
-
     public ItemAddResult addItem(AbstractItem item){
         if(heldCount == 0) {
             heldItem = item;

@@ -52,7 +52,6 @@ public class RenderManager {
      * A hátizsákunk tartalmának kirajzolása konzolra
      * @param slots a hátizsák rekeszei amelyek vagy tartalmaznak valamit vagy nem
      */
-
     public void RenderInventory(List<Slot> slots){
         for( Slot slot : slots){
             System.out.println(slot.getName() +": "+ slot.getHeldCount());
@@ -64,7 +63,6 @@ public class RenderManager {
      * @param vendorSlots a falu boltjának termékeineki
      * @param player a játékos
      */
-
     public void RenderShopInventory(List<Slot> vendorSlots, Player player){
         System.out.println("\nShop inventory:");
         for( Slot slot : vendorSlots){
@@ -85,7 +83,6 @@ public class RenderManager {
      * @param standingOnTile melyik faluban van a játékos
      * @param player a játékos
      */
-
     public void RenderVillageCompanion(AbstractTileObject standingOnTile, Player player) {
         Scanner scanner = new Scanner(System.in);
 
@@ -105,7 +102,6 @@ public class RenderManager {
     /**
      * Segítség kirajzolása, a létező parancsok
      */
-
     public void RenderHelp(){
         System.out.println("move up: moves you upwards");
         System.out.println("move left: moves you left");
@@ -124,7 +120,6 @@ public class RenderManager {
     /**
      * A térkép jelmagyarázatának kirajzolása konzolra
      */
-
     public void RenderLegend(){
         System.out.println("A - Altar");
         System.out.println("C - Cave");

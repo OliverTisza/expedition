@@ -36,7 +36,6 @@ public abstract class AbstractCompanion {
      * A csapattársak bónuszainak visszavonása, csapattársanként változó
      * @param player a játékos akiről visszavonódik a módosítás
      */
-
     public abstract void DestroyModifier(Player player);
 
     public int getCost() {

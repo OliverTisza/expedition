@@ -16,7 +16,6 @@ public class RandomManager {
      * @param width a teljes pálya szélessége
      * @return int[], azt a X,Y koordinátát tárolja ameddig tenger van.
      */
-
     public int[] GenerateSeaPos(int height, int width){
         return new int[]{random.nextInt(height-2)+1,random.nextInt(width/2)+1};
     }
@@ -27,7 +26,6 @@ public class RandomManager {
      * @param WIDTH a pálya teljes szélessége
      * @param HEIGHT a pálya teljes magassága
      */
-
     public void RandomizeGround(AbstractTileObject[][] map, int WIDTH, int HEIGHT){
 
         for(int i = 0; i < HEIGHT; i++){
@@ -68,7 +66,6 @@ public class RandomManager {
      * @param col a baloldali tó terület ioszlopindexe
      * @param map az eddig generált teljes pálya
      */
-
     private void CreateLake(int row, int col, AbstractTileObject[][] map) {
 
         if( map[row-1][col].getSymbol() != 'S' && map[row][col-1].getSymbol() != 'S' && map[row-1][col-1].getSymbol() != 'S'){
@@ -105,7 +102,6 @@ public class RandomManager {
      * @param seaColPos a tenger végpontját határoló pont oszlopindexe
      * @return int[] a piramis sor- és oszlopindexe
      */
-
     public int[] GeneratePyramidLocation(int HEIGHT,int WIDTH,int seaRowPos, int seaColPos){
         int pyramidRowPos = seaRowPos + random.nextInt(HEIGHT - seaRowPos);
         int pyramidColPos = seaColPos + random.nextInt(WIDTH - seaColPos);
@@ -119,7 +115,6 @@ public class RandomManager {
      * @param seaColPos a tenger végpontját határoló pont oszlopindexe
      * @return int[], a hajó sor- és oszlopindexe
      */
-
     public int[] GenerateShipLocation(int seaRowPos, int seaColPos){
 
         int edge = random.nextInt(2);
@@ -137,7 +132,6 @@ public class RandomManager {
      * Elhagyja-e valaki a csapatot
      * @return boolean, valaki elhagyja a csapatot
      */
-
     public boolean LeaveEvent(){
 
         int randomNum = random.nextInt(100);
@@ -149,7 +143,6 @@ public class RandomManager {
      * @param location melyik faluban vagyunk
      * @return AbstractCompanion, egy csapattárs
      */
-
     public AbstractCompanion GenerateCompanion(AbstractTileObject location){
         int randomNum = random.nextInt(3);
 
@@ -171,7 +164,6 @@ public class RandomManager {
      * Függőség bekövetkeztének eldöntése
      * @return boolean, függővé vált-e
      */
-
     public boolean BecomesAddicted(){
         return random.nextInt(100) < 15;
     }
@@ -181,7 +173,6 @@ public class RandomManager {
      * @param bound hány csapattársunk van a csapatban
      * @return int, választott csapattárs sorszáma
      */
-
     public int RandomCompanion(int bound){
         return random.nextInt(bound);
     }
