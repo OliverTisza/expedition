@@ -1,10 +1,12 @@
-package com.company.Items;
+package com.company.Items.Food;
 
 import com.company.Player.Player;
 
-public class Drug extends AbstractFoodItem{
-    public Drug(Player player) {
-        super(20, true, player,"Drug",0,0);
+public class Meat extends AbstractFoodItem{
+
+
+    public Meat() {
+        super(25, false,"meat",20,20);
     }
 
     @Override

@@ -17,6 +17,11 @@ public class Player extends AbstractTileObject {
     private float whiskeyBonus;
     private float drugBonus;
 
+    private boolean isAddictedToWhiskey = false;
+    private boolean isAddictedToDrug = false;
+    private boolean foundPyramid = false;
+
+
     private int rowPos;
     private int colPos;
 
@@ -24,24 +29,29 @@ public class Player extends AbstractTileObject {
     private List<AbstractCompanion> companions = new ArrayList<AbstractCompanion>();
 
     private int plusRepFromSagesOnNextMap;
-    private float traderSellModifier;
+    private int traderSellModifier;
 
 
-    public Player(int rowPos, int colPos) {
+    public Player() {
         super(true,true, '*');
         this.energy = 100;
         this.gold = 250;
         this.rep = 3;
         this.fame = 0;
         this.inventory = new Inventory();
-        this.rowPos = rowPos;
-        this.colPos = colPos;
+        this.rowPos = -1;
+        this.colPos = -1;
         this.visionRange = 1;
         this.whiskeyBonus = 0;
         this.plusRepFromSagesOnNextMap = 0;
-        this.traderSellModifier = 1.0f;
+        this.traderSellModifier = 0;
     }
 
+    /**
+     * A játékosnak a kívánt új pozíciót állítja be amennyiben megengedett a lépés
+     *
+     * @param input a kívánt új pozíció
+     */
     public void Move(String input){
 
         try {
@@ -61,7 +71,7 @@ public class Player extends AbstractTileObject {
             }
 
             if(getEnergy() > 0){
-                setEnergy(getEnergy() - (1 + inventory.getOverCommitmentPenalty()));
+                setEnergy(getEnergy() - (1 + inventory.getOverCommitmentPenalty() + (companions.size() * 0.15f)) );
             }
 
 
@@ -71,17 +81,23 @@ public class Player extends AbstractTileObject {
 
     }
 
+    /**
+     * Növeli a játékos energiáját a megadott mennyiséggel
+     * @param energyAmount megadott mennyiség
+     */
     public void increaseEnergy(float energyAmount){
 
         setEnergy(energy + energyAmount);
 
     }
 
+    /**
+     * A bölcsek növelik a viszonyt
+     */
     public void ActivateSages() {
         rep += plusRepFromSagesOnNextMap;
         plusRepFromSagesOnNextMap = 0;
     }
-
 
     public float getEnergy() {
         return energy;
@@ -171,11 +187,11 @@ public class Player extends AbstractTileObject {
         this.plusRepFromSagesOnNextMap = plusRepFromSagesOnNextMap;
     }
 
-    public float getTraderSellModifier() {
+    public int getTraderSellModifier() {
         return traderSellModifier;
     }
 
-    public void setTraderSellModifier(float traderSellModifier) {
+    public void setTraderSellModifier(int traderSellModifier) {
         this.traderSellModifier = traderSellModifier;
     }
 
@@ -185,6 +201,30 @@ public class Player extends AbstractTileObject {
 
     public void setCompanions(List<AbstractCompanion> companions) {
         this.companions = companions;
+    }
+
+    public boolean isAddictedToWhiskey() {
+        return isAddictedToWhiskey;
+    }
+
+    public void setAddictedToWhiskey(boolean addictedToWhiskey) {
+        isAddictedToWhiskey = addictedToWhiskey;
+    }
+
+    public boolean isAddictedToDrug() {
+        return isAddictedToDrug;
+    }
+
+    public void setAddictedToDrug(boolean addictedToDrug) {
+        isAddictedToDrug = addictedToDrug;
+    }
+
+    public boolean isFoundPyramid() {
+        return foundPyramid;
+    }
+
+    public void setFoundPyramid(boolean foundPyramid) {
+        this.foundPyramid = foundPyramid;
     }
 }
 

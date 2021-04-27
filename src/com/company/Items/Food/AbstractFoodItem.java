@@ -1,19 +1,20 @@
-package com.company.Items;
+package com.company.Items.Food;
 
+import com.company.Items.AbstractItem;
 import com.company.Player.Player;
 
-public abstract class AbstractFoodItem extends AbstractItem{
+public abstract class AbstractFoodItem extends AbstractItem {
 
     private int energyAmount;
     private boolean isAddictive;
 
-    private Player player;
+    //private Player player;
 
-    public AbstractFoodItem(int energyAmount, boolean isAddictive, Player player, String name, int buyCost, int sellCost) {
+    public AbstractFoodItem(int energyAmount, boolean isAddictive, String name, int buyCost, int sellCost) {
         super(buyCost,sellCost,true,name);
         this.energyAmount = energyAmount;
         this.isAddictive = isAddictive;
-        this.player = player;
+        //this.player = player;
     }
 
 

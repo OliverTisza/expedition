@@ -6,6 +6,8 @@ public abstract class AbstractItem {
     private int sellCost;
     protected boolean isStackable;
     protected String name;
+
+
     public abstract boolean IsStackable();
     public abstract String getName();
 
@@ -14,5 +16,21 @@ public abstract class AbstractItem {
         this.sellCost = sellCost;
         this.isStackable = isStackable;
         this.name = name;
+    }
+
+    public int getBuyCost() {
+        return buyCost;
+    }
+
+    public void setBuyCost(int buyCost) {
+        this.buyCost = buyCost;
+    }
+
+    public int getSellCost() {
+        return sellCost;
+    }
+
+    public void setSellCost(int sellCost) {
+        this.sellCost = sellCost;
     }
 }
