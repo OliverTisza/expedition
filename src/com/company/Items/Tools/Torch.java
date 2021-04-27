@@ -2,7 +2,7 @@ package com.company.Items.Tools;
 
 public class Torch extends ToolItems{
     public Torch(int buyCost, int sellCost) {
-        super(buyCost, sellCost, "torch");
+        super(20, 20, "torch");
     }
 
     @Override

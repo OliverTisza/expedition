@@ -1,7 +1,9 @@
 package com.company.Manager;
 
 import com.company.Companions.AbstractCompanion;
+import com.company.Companions.Sage;
 import com.company.Companions.Scout;
+import com.company.Companions.Trader;
 import com.company.Items.Food.AbstractFoodItem;
 import com.company.Items.Food.Drug;
 import com.company.Items.Food.Whiskey;
@@ -73,7 +75,7 @@ public class GameManager {
         //player.setGold(1000);
         //player.getInventory().addItem(new Treasure());
         //player.getInventory().addItem(new Treasure());
-        player.getCompanions().add(new Scout());
+        player.getCompanions().add(new Sage());
         player.getCompanions().get(player.getCompanions().size() - 1).ApplyModifier(player);
         for(int i = 0; i < 30; i++){
             player.getInventory().addItem(new Drug());
@@ -106,7 +108,10 @@ public class GameManager {
             String playerInput = scanner.nextLine();
             playerInputWords = playerInput.split(" ");
 
-            if(playerInputWords[0].equals("y")) CreateNewMap();
+            if(playerInputWords[0].equals("y")){
+                System.out.println("Your reputation: " + player.getRep());
+                CreateNewMap();
+            }
 
             else if(playerInputWords[0].equals("buy")) {
                 BuyFromShop(startingShop, playerInputWords);
@@ -156,10 +161,6 @@ public class GameManager {
      * Az egy kör eltelésével szükséges adatok frissítése
      */
     public void Update(){
-        //TODO TEST
-        System.out.println(player.getCompanions().get(0).getDrugWithrawal());
-        //TODO END OF TEST
-
         if(standingOnTile.getSymbol() == 'J') JungleCondition();
 
         System.out.println("What would you like to do?");
@@ -243,6 +244,7 @@ public class GameManager {
                 player.setGold( player.getGold() + slot.getHeldItem().getSellCost() + player.getTraderSellModifier());
                 ((Village)standingOnTile).getVillageShop().getVendorInventory().addItem(slot.getHeldItem());
                 slot.decreaseHeldCount();
+                break;
             }
         }
         renderManager.RenderShopInventory(((Village)standingOnTile).getVillageShop().getVendorInventory().getSlots(), player);
@@ -470,6 +472,7 @@ public class GameManager {
             case "inventory":
                 renderManager.RenderInventory(player.getInventory().getSlots());
                 System.out.println(player.getCompanions().toString());
+                System.out.println("Your reputation: " + player.getRep());
                 break;
             case "help":
                 renderManager.RenderHelp();

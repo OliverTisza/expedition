@@ -3,7 +3,7 @@ package com.company.Items.Tools;
 public class Machete extends ToolItems{
 
     public Machete(int buyCost, int sellCost) {
-        super(buyCost, sellCost, "machete");
+        super(20, 20, "machete");
     }
 
     @Override
