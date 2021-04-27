@@ -118,6 +118,8 @@ public class RenderManager implements Serializable {
         System.out.println("buy <item> <optional quanity>: buy item from shop");
         System.out.println("sell <item>: sell item to shop");
         System.out.println("go home: finish expedition, starts next one");
+        System.out.println("save: saves the game");
+        System.out.println("load: loads the game");
     }
 
     /**
