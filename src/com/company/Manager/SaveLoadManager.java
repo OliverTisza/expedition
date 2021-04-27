@@ -14,6 +14,15 @@ public class SaveLoadManager {
 
     private static final String filepath="Saves/game.save";
 
+    /**
+     * Elmenti az adott játékállást
+     * @param map a teljes pálya
+     * @param player a játékos
+     * @param rivals a riválisok
+     * @param standingOnTile az adott terület amin állt a játékos amikor a mentés történt
+     * @param whiskeyDrank egymás után megivott whiskey-k száma
+     * @param drugUsed egymás után fogyasztott drogok száma
+     */
     public void SaveGame(AbstractTileObject[][] map, Player player, HashMap<String,Integer> rivals, AbstractTileObject standingOnTile, int whiskeyDrank, int drugUsed) {
 
         System.out.println("Trying to save");
@@ -42,6 +51,10 @@ public class SaveLoadManager {
         }
     }
 
+    /**
+     * Betölt egy korábbi játékállást
+     * @param gameManager a játékmenetért felel
+     */
     public void LoadGame(GameManager gameManager) {
 
         System.out.println("Trying to load");
