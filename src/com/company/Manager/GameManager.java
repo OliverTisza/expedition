@@ -141,7 +141,7 @@ public class GameManager {
                                 slot.decreaseHeldCount();
                             }else {
                                 System.out.println("You ran out of money matey! Come back when you have more!");
-                                return;
+                                break;
                             }
                         }
                     } catch (NullPointerException e){
@@ -154,7 +154,6 @@ public class GameManager {
                         slot.decreaseHeldCount();
                     }else {
                         System.out.println("You ran out of money matey! Come back when you have more!");
-                        return;
                     }
                 }
             }
