@@ -199,9 +199,9 @@ public class GameManager {
             case "go":
                 if(playerInputWords[1].equals("home"))VisitMuseum();
 
-            if(player.getEnergy() > 100) player.setEnergy(100);
-            if(standingOnTile.getSymbol() == 'P') PyramidFound();
         }
+        if(player.getEnergy() > 100) player.setEnergy(100);
+        if(standingOnTile.getSymbol() == 'P') PyramidFound();
         System.out.println("Player energy: " + String.format("%.2f",player.getEnergy()));
         Update();
     }
