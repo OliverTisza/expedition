@@ -47,6 +47,11 @@ public class Player extends AbstractTileObject {
         this.traderSellModifier = 1.0f;
     }
 
+    /**
+     * A játékosnak a kívánt új pozíciót állítja be amennyiben megengedett a lépés
+     *
+     * @param input a kívánt új pozíció
+     */
     public void Move(String input){
 
         try {
@@ -76,17 +81,25 @@ public class Player extends AbstractTileObject {
 
     }
 
+    /**
+     * Növeli a játékos energiáját a megadott mennyiséggel
+     * @param energyAmount megadott mennyiség
+     */
+
     public void increaseEnergy(float energyAmount){
 
         setEnergy(energy + energyAmount);
 
     }
 
+    /**
+     * A bölcsek növelik a viszonyt
+     */
+
     public void ActivateSages() {
         rep += plusRepFromSagesOnNextMap;
         plusRepFromSagesOnNextMap = 0;
     }
-
 
     public float getEnergy() {
         return energy;

@@ -27,6 +27,12 @@ public class RenderManager {
          */
     }
 
+    /**
+     * A térkép kirajzolása konzolba
+     * @param height a teljes pálya magassága
+     * @param width a teljes pálya szélessége
+     * @param map a legenerált pálya
+     */
     public void RenderMap(int height, int width, AbstractTileObject[][] map){
 
         for(int i = 0; i < height; i++){
@@ -42,11 +48,22 @@ public class RenderManager {
         System.out.println();
     }
 
+    /**
+     * A hátizsákunk tartalmának kirajzolása konzolra
+     * @param slots a hátizsák rekeszei amelyek vagy tartalmaznak valamit vagy nem
+     */
+
     public void RenderInventory(List<Slot> slots){
         for( Slot slot : slots){
             System.out.println(slot.getName() +": "+ slot.getHeldCount());
         }
     }
+
+    /**
+     * A falu boltjának kirajzolása konzolra
+     * @param vendorSlots a falu boltjának termékeineki
+     * @param player a játékos
+     */
 
     public void RenderShopInventory(List<Slot> vendorSlots, Player player){
         System.out.println("\nShop inventory:");
@@ -62,6 +79,12 @@ public class RenderManager {
         RenderInventory(player.getInventory().getSlots());
 
     }
+
+    /**
+     * A faluban felajánlott csapattárs kirajzolása konzolra
+     * @param standingOnTile melyik faluban van a játékos
+     * @param player a játékos
+     */
 
     public void RenderVillageCompanion(AbstractTileObject standingOnTile, Player player) {
         Scanner scanner = new Scanner(System.in);
@@ -79,6 +102,10 @@ public class RenderManager {
         } else {System.out.println("It seems nobody wishes to join your party"); }
     }
 
+    /**
+     * Segítség kirajzolása, a létező parancsok
+     */
+
     public void RenderHelp(){
         System.out.println("move up: moves you upwards");
         System.out.println("move left: moves you left");
@@ -93,6 +120,10 @@ public class RenderManager {
         System.out.println("sell <item>: sell item to shop");
         System.out.println("go home: finish expedition, starts next one");
     }
+
+    /**
+     * A térkép jelmagyarázatának kirajzolása konzolra
+     */
 
     public void RenderLegend(){
         System.out.println("A - Altar");

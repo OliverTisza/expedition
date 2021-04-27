@@ -45,6 +45,14 @@ public class Slot {
         }
     }
 
+    /**
+     * A tárhely egyik rekeszébe tesz egy tárgyat amennyiben az azonos a már rekeszben lévő tárggyal,
+     * vagy üres rekeszbe rakja egyébként
+     *
+     * @param item az eltárolandó tárgy
+     * @return az eltárolandó tárgy és az adott rekesz viszonya
+     */
+
     public ItemAddResult addItem(AbstractItem item){
         if(heldCount == 0) {
             heldItem = item;
@@ -65,6 +73,10 @@ public class Slot {
         return  ItemAddResult.WRONG_ITEM;
     }
 
+
+    /**
+     * Az adott rekeszből kiveszi az itt tárolt tárgyat
+     */
     public void decreaseHeldCount()
     {
         this.heldCount--;

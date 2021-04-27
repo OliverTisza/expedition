@@ -26,7 +26,16 @@ public abstract class AbstractCompanion {
     }
 
 
+    /**
+     * Végrehajtja a bónuszokat amiket a csapattársak adnak, ezek csapattársanként változnak
+     * @param player a játékos akin végre lesz hajtva a módosítás
+     */
     public abstract void ApplyModifier(Player player);
+
+    /**
+     * A csapattársak bónuszainak visszavonása, csapattársanként változó
+     * @param player a játékos akiről visszavonódik a módosítás
+     */
 
     public abstract void DestroyModifier(Player player);
 

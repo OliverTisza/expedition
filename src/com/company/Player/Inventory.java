@@ -30,6 +30,11 @@ public class Inventory {
         return slots;
     }
 
+    /**
+     * A játékos táskájába eltárol egy adott tárgyat
+     * @param item az adott eltárolandó tárgy
+     */
+
     public void addItem(AbstractItem item) {
         boolean carry = true;
         for(Slot slot : slots) {
@@ -56,6 +61,11 @@ public class Inventory {
             slots.add(s);
         }
     }
+
+    /**
+     * A játékos táskájából kivesz egy adott tárgyat
+     * @param item adott tárgy
+     */
 
     public void removeItem(AbstractItem item) {
         for(Slot slot : slots) {

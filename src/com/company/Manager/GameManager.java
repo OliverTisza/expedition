@@ -37,6 +37,10 @@ public class GameManager {
     private int whiskeyDrank = 0;
     private int drugUsed = 0;
 
+    /**
+     * Ajánl egy csapattársat, majd továbbléptet a boltba vásárolni az expedíció előtt
+     */
+
     public void StartLevel(){
 
         AbstractCompanion purchasableCompanion = randomManager.GenerateCompanion(new Ship(0,0));
@@ -81,6 +85,11 @@ public class GameManager {
         //CreateNewMap();
     }
 
+    /**
+     * A felfedezés előtti vásárlás
+     * @param startingShop a felfedezés kezdete előtti bolt
+     */
+
     private void Preparation(StartingShop startingShop) {
         //renderManager.RenderShopInventory(startingShop.getVendorSlots(), player);
 
@@ -103,6 +112,12 @@ public class GameManager {
             renderManager.RenderHelp();
         } while (!playerInputWords[0].equals("y"));
     }
+
+    /**
+     * Tárgyak vásárlása eladása a bolt és a játékos tárhelyeiről
+     * @param shop a bolt ahonnan vásárolunk
+     * @param playerInputWords a játékos konzolra beírt kulcsszavai
+     */
 
     private void BuyFromShop(AbstractShop shop, String[] playerInputWords) {
         for(Slot slot : shop.getVendorInventory().getSlots()){
@@ -132,6 +147,9 @@ public class GameManager {
         System.out.println(player.getCompanions().toString());
     }
 
+    /**
+     * Az egy kör eltelésével szükséges adatok frissítése
+     */
 
     public void Update(){
 
@@ -215,6 +233,11 @@ public class GameManager {
 
     }
 
+    /**
+     * Energianövelés annyival amennyi energiát ad a játékos által kívánt tárgy ad
+     * @param playerInputWords a játékos által elfogyasztani kívánt tárgy kulcsszavai
+     */
+
     private void UseEnergyItem(String[] playerInputWords) {
         List<Slot> slots = player.getInventory().getSlots();
         Collections.reverse(slots);
@@ -269,6 +292,10 @@ public class GameManager {
         }
     }
 
+    /**
+     * Ellenőrzés, hogy kifogyott-e a játékos energiából és a megfelelő módosítások végrehajtása, annak eldöntése, hogy elhagyja-e valaki a csapatot
+     */
+
     private void OutOfEnergy() {
 
         if(player.getEnergy() <= 0){
@@ -287,6 +314,10 @@ public class GameManager {
         }
 
     }
+
+    /**
+     * Új pálya generálása, inicializálása
+     */
 
     public void CreateNewMap(){
 
@@ -320,6 +351,12 @@ public class GameManager {
 
     }
 
+    /**
+     * A piramis, hajó és játékos lehelyezése a legenerál, véletlenszerűsített pályára
+     * @param seaRowPos a tenger végpontjának sorindexe
+     * @param seaColPos a tenger végpontjának oszlopindexe
+     */
+
     private void CreateShipAndPyramid(int seaRowPos, int seaColPos) {
 
         int[] uniquePos;
@@ -346,6 +383,12 @@ public class GameManager {
         }
     }
 
+    /**
+     * A pálya szétválasztása földdé és tengerré
+     * @param seaRowPos a tenger végpontjának sorindexe
+     * @param seaColPos a tenger végpontjának oszlopindexe
+     */
+
     private void CreateWaterAndGround(int seaRowPos, int seaColPos) {
 
         for(int i = 0; i < HEIGHT; i++){
@@ -356,6 +399,11 @@ public class GameManager {
             }
         }
     }
+
+    /**
+     * A játékos által kért játékhoz tartozó elem kirajzolása
+     * @param playerInputWord kulcsszavak, amelyek egyértelműsítik mit kell kirajzolni
+     */
 
     private void ExecuteShowAction(String playerInputWord) {
         switch (playerInputWord){
@@ -388,6 +436,11 @@ public class GameManager {
         }
     }
 
+    /**
+     * A játékos mozgatása a megadott irányba, felfedezhető területek felfedezése, térkép újrarajzolása
+     * @param playerInputWord kulcsszavak, amelyek egyértelműsítik melyik irányba szeretnénk lépni
+     */
+
     private void ExecuteMoveAction(String playerInputWord) {
         map[player.getRowPos()][player.getColPos()] = standingOnTile;
         player.Move(playerInputWord);
@@ -400,6 +453,11 @@ public class GameManager {
         renderManager.RenderMap(HEIGHT,WIDTH,map);
     }
 
+    /**
+     * Ellenőrzés, hogy léphet-e a játékos a megadott irányba
+     * @param playerInputWords kulcsszavak, amelyek egyértelműsítik melyik irányba szeretnénk lépni
+     * @return boolean, léphetünk-e az adott irányba
+     */
 
     public boolean isValidAction(String[] playerInputWords){
         try {
@@ -426,6 +484,9 @@ public class GameManager {
         //return  false;
     }
 
+    /**
+     * A játékos körüli területek felfedezése
+     */
     private void Explore() {
 
             for (int i = player.getVisionRange()*-1; i <= player.getVisionRange(); i++){
@@ -437,6 +498,10 @@ public class GameManager {
                 }
             }
     }
+
+    /**
+     * Az elvonási tünetek figyelése, és végrehajtása
+     */
 
     private void UpdateWithravalStatus(){
         for (AbstractCompanion companion : player.getCompanions()){
@@ -450,17 +515,29 @@ public class GameManager {
         }
     }
 
+    /**
+     * Az whiskey elvonási tünetének enyhülése
+     */
+
     private void ResetWhiskeyWithraval(){
         for (AbstractCompanion companion : player.getCompanions()){
             companion.setWhiskeyWithrawal(0);
         }
     }
 
+    /**
+     * A drog elvonási tünetének enyhülése
+     */
+
     private void ResetDrugWithraval(){
         for (AbstractCompanion companion : player.getCompanions()){
             companion.setDrugWithrawal(0);
         }
     }
+
+    /**
+     * A riválisok megjelenítése, a kincsek eladása, adományozása a múzeumnak
+     */
 
     private void VisitMuseum(){
 
