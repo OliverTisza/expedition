@@ -148,8 +148,6 @@ public class GameManager {
      * Az egy kör eltelésével szükséges adatok frissítése
      */
     public void Update(){
-
-
         if(standingOnTile.getSymbol() == 'J'){
             for(Slot slot : player.getInventory().getSlots()) {
                 if (slot.getName().equals("machete")) {
@@ -209,7 +207,6 @@ public class GameManager {
             case "go":
                 if(playerInputWords[1].equals("home"))VisitMuseum();
 
-
             if(player.getEnergy() > 100) player.setEnergy(100);
 
             if(standingOnTile.getSymbol() == 'P'){
@@ -237,41 +234,11 @@ public class GameManager {
         for (Slot slot : slots) {
             if (slot.getName().equals(playerInputWords[1])) {
                 if (playerInputWords[1].equals("whiskey")) {
-                    player.increaseEnergy(((AbstractFoodItem) slot.getHeldItem()).getEnergyAmount() + player.getWhiskeyBonus());
-
-                    // We have companions
-                    if (randomManager.BecomesAddicted() && player.getCompanions().size() > 0 && whiskeyDrank > 1) {
-                        int randomCompanion;
-                        do{
-                            randomCompanion = randomManager.RandomCompanion(player.getCompanions().size());
-                        } while(!player.getCompanions().get(randomCompanion).isAddictedToWhiskey());
-                        player.getCompanions().get(randomCompanion).setAddictedToWhiskey(true);
-                        System.out.println("Oh no! " + player.getCompanions().get(randomCompanion).toString() + " became addicted to whiskey!");
-                    }
-                    // We don't have companions
-                    else if(randomManager.BecomesAddicted()) player.setAddictedToWhiskey(true);
-
-                    slot.decreaseHeldCount();
-                    Collections.reverse(slots);
-                    ResetWhiskeyWithraval();
-                    whiskeyDrank++;
+                    UseWhiskey(slots, slot);
                     break;
 
                 } else if (playerInputWords[1].equals("drug")) {
-                    player.increaseEnergy(((AbstractFoodItem) slot.getHeldItem()).getEnergyAmount() + player.getDrugBonus());
-                        if (randomManager.BecomesAddicted() && player.getCompanions().size() > 0 && drugUsed > 1) {
-                            int randomCompanion;
-                            do{
-                                randomCompanion = randomManager.RandomCompanion(player.getCompanions().size());
-                            } while(!player.getCompanions().get(randomCompanion).isAddictedToDrug());
-                            player.getCompanions().get(randomCompanion).setAddictedToDrug(true);
-                            System.out.println("Oh no! " + player.getCompanions().get(randomCompanion).toString() + " became addicted to drugs!");
-                        }
-                        else if(randomManager.BecomesAddicted()) player.setAddictedToWhiskey(true);
-                    slot.decreaseHeldCount();
-                    Collections.reverse(slots);
-                    ResetDrugWithraval();
-                    drugUsed++;
+                    UseDrug(slots, slot);
                     break;
                 } else {
                     player.increaseEnergy(((AbstractFoodItem) slot.getHeldItem()).getEnergyAmount());
@@ -283,6 +250,57 @@ public class GameManager {
                 }
             }
         }
+    }
+
+    /**
+     * Drog használata energianövelésre
+     * @param slots a játékos tárhelyének rekeszei
+     * @param slot az aktuálisan vizsgált rekesz
+     */
+    private void UseDrug(List<Slot> slots, Slot slot) {
+        player.increaseEnergy(((AbstractFoodItem) slot.getHeldItem()).getEnergyAmount() + player.getDrugBonus());
+        if (randomManager.BecomesAddicted() && player.getCompanions().size() > 0 && drugUsed > 1) {
+            int randomCompanion;
+            do{
+                randomCompanion = randomManager.RandomCompanion(player.getCompanions().size());
+            } while(!player.getCompanions().get(randomCompanion).isAddictedToDrug());
+            player.getCompanions().get(randomCompanion).setAddictedToDrug(true);
+            System.out.println("Oh no! " + player.getCompanions().get(randomCompanion).toString() + " became addicted to drugs!");
+        }
+        else if(randomManager.BecomesAddicted()) player.setAddictedToWhiskey(true);
+        slot.decreaseHeldCount();
+        Collections.reverse(slots);
+        ResetDrugWithraval();
+        drugUsed++;
+        //return;
+    }
+
+    /**
+     * Drog használata energianövelésre
+     * @param slots a játékos tárhelyének rekeszei
+     * @param slot az aktuálisan vizsgált rekesz
+     */
+
+    private void UseWhiskey(List<Slot> slots, Slot slot) {
+        player.increaseEnergy(((AbstractFoodItem) slot.getHeldItem()).getEnergyAmount() + player.getWhiskeyBonus());
+
+        // We have companions
+        if (randomManager.BecomesAddicted() && player.getCompanions().size() > 0 && whiskeyDrank > 1) {
+            int randomCompanion;
+            do{
+                randomCompanion = randomManager.RandomCompanion(player.getCompanions().size());
+            } while(!player.getCompanions().get(randomCompanion).isAddictedToWhiskey());
+            player.getCompanions().get(randomCompanion).setAddictedToWhiskey(true);
+            System.out.println("Oh no! " + player.getCompanions().get(randomCompanion).toString() + " became addicted to whiskey!");
+        }
+        // We don't have companions
+        else if(randomManager.BecomesAddicted()) player.setAddictedToWhiskey(true);
+
+        slot.decreaseHeldCount();
+        Collections.reverse(slots);
+        ResetWhiskeyWithraval();
+        whiskeyDrank++;
+        //return;
     }
 
     /**
