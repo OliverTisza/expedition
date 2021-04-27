@@ -148,22 +148,11 @@ public class GameManager {
      * Az egy kör eltelésével szükséges adatok frissítése
      */
     public void Update(){
-        if(standingOnTile.getSymbol() == 'J'){
-            for(Slot slot : player.getInventory().getSlots()) {
-                if (slot.getName().equals("machete")) {
-                    slot.decreaseHeldCount();
-                    standingOnTile = new Ground();
-                    return;
-                }
-            }
-            player.setEnergy(player.getEnergy() - (1 + player.getInventory().getOverCommitmentPenalty() + (player.getCompanions().size() * 0.15f)));
-        }
-
+        if(standingOnTile.getSymbol() == 'J') JungleCondition();
+        
         System.out.println("What would you like to do?");
         String playerInput = scanner.nextLine();
-
         String[] playerInputWords = playerInput.split(" ");
-
         if(playerInputWords.length < 2){
             renderManager.RenderMap(HEIGHT,WIDTH,map);
             System.out.println("Invalid action");
@@ -193,35 +182,58 @@ public class GameManager {
                 UseEnergyItem(playerInputWords);
                 break;
             case "sell":
-                if(standingOnTile.getSymbol() == 'V'){
-                    for (Slot slot : player.getInventory().getSlots()){
-                        if(slot.getName().equals(playerInputWords[1])){
-                            player.setGold( player.getGold() + slot.getHeldItem().getSellCost());
-                            ((Village)standingOnTile).getVillageShop().getVendorInventory().addItem(slot.getHeldItem());
-                            slot.decreaseHeldCount();
-                        }
-                    }
-                    renderManager.RenderShopInventory(((Village)standingOnTile).getVillageShop().getVendorInventory().getSlots(), player);
-                }
+                if(standingOnTile.getSymbol() == 'V')SellToShop(playerInputWords);
                 break;
             case "go":
                 if(playerInputWords[1].equals("home"))VisitMuseum();
 
             if(player.getEnergy() > 100) player.setEnergy(100);
-
-            if(standingOnTile.getSymbol() == 'P'){
-                System.out.println("You've found the Golden Pyramid!");
-                player.setFame(player.getFame() + 1000);
-                player.getInventory().addItem(new Treasure());
-                System.out.println("Do you wish to go to the next expedition? (y/n)");
-                String answer = scanner.nextLine();
-                if(answer.equals("y")) VisitMuseum();
-                player.setFoundPyramid(true);
-            }
+            if(standingOnTile.getSymbol() == 'P') PyramidFound();
         }
         System.out.println("Player energy: " + String.format("%.2f",player.getEnergy()));
         Update();
+    }
 
+    /**
+     * A Dzsungel feltételei, ha van macsétánk levágjuk, egyébként több energia mozogni
+     */
+    private void JungleCondition() {
+        for(Slot slot : player.getInventory().getSlots()) {
+            if (slot.getName().equals("machete")) {
+                slot.decreaseHeldCount();
+                standingOnTile = new Ground();
+                return;
+            }
+        }
+        player.setEnergy(player.getEnergy() - (1 + player.getInventory().getOverCommitmentPenalty() + (player.getCompanions().size() * 0.15f)));
+    }
+
+    /**
+     * Megtaláltuk a pályán a piramist, megkapjuk az ezzel járó jutalmakat
+     */
+    private void PyramidFound() {
+        System.out.println("You've found the Golden Pyramid!");
+        player.setFame(player.getFame() + 1000);
+        player.getInventory().addItem(new Treasure());
+        System.out.println("Do you wish to go to the next expedition? (y/n)");
+        String answer = scanner.nextLine();
+        if(answer.equals("y")) VisitMuseum();
+        player.setFoundPyramid(true);
+    }
+
+    /**
+     * A játékos elad egy tárgyat a boltnak
+     * @param playerInputWords az eladni kívánt tárgy
+     */
+    private void SellToShop(String[] playerInputWords) {
+        for (Slot slot : player.getInventory().getSlots()){
+            if(slot.getName().equals(playerInputWords[1])){
+                player.setGold( player.getGold() + slot.getHeldItem().getSellCost());
+                ((Village)standingOnTile).getVillageShop().getVendorInventory().addItem(slot.getHeldItem());
+                slot.decreaseHeldCount();
+            }
+        }
+        renderManager.RenderShopInventory(((Village)standingOnTile).getVillageShop().getVendorInventory().getSlots(), player);
     }
 
     /**
