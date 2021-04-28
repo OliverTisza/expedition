@@ -44,8 +44,6 @@ public class GameManager implements Serializable {
     public int whiskeyDrank = 0;
     public int drugUsed = 0;
 
-    private boolean isBeforeFirstMap = true;
-
     /**
      * Ajánl egy csapattársat, majd továbbléptet a boltba vásárolni az expedíció előtt
      */
@@ -129,7 +127,7 @@ public class GameManager implements Serializable {
             System.out.println("Valid actions unless specified otherwise. (you can view these when you are on an expedition by typing 'show help' ");
             renderManager.RenderHelp();
         } while (!playerInputWords[0].equals("y"));
-        isBeforeFirstMap = false;
+        boolean isBeforeFirstMap = false;
     }
 
     /**
@@ -353,7 +351,6 @@ public class GameManager implements Serializable {
      * @param slots a játékos tárhelyének rekeszei
      * @param slot az aktuálisan vizsgált rekesz
      */
-
     private void UseWhiskey(List<Slot> slots, Slot slot) {
         player.increaseEnergy(((AbstractFoodItem) slot.getHeldItem()).getEnergyAmount() + player.getWhiskeyBonus());
 
