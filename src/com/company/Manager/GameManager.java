@@ -44,10 +44,14 @@ public class GameManager implements Serializable {
     public int whiskeyDrank = 0;
     public int drugUsed = 0;
 
+    public int roundsFinished = 0;
+
     /**
      * Ajánl egy csapattársat, majd továbbléptet a boltba vásárolni az expedíció előtt
      */
     public void StartLevel(){
+
+        roundsFinished++;
 
         AbstractCompanion purchasableCompanion = randomManager.GenerateCompanion(new Ship(0,0));
         System.out.println("You may hire <" + purchasableCompanion.toString() + "> as your new companion! The cost is: " + purchasableCompanion.getCost() + " gold pieces!");
@@ -182,7 +186,7 @@ public class GameManager implements Serializable {
         System.out.println("What would you like to do?");
         String playerInput = scanner.nextLine();
 
-        if(playerInput.equals("save")) saveLoadManager.SaveGame(map,player,rivals,standingOnTile,whiskeyDrank,drugUsed);
+        if(playerInput.equals("save")) saveLoadManager.SaveGame(map,player,rivals,standingOnTile,whiskeyDrank,drugUsed,roundsFinished);
         if(playerInput.equals("load")) saveLoadManager.LoadGame(this);
 
         String[] playerInputWords = playerInput.split(" ");
@@ -295,7 +299,7 @@ public class GameManager implements Serializable {
         List<Slot> slots = player.getInventory().getSlots();
         Collections.reverse(slots);
         for (Slot slot : slots) {
-            if (slot.getName().equals(playerInputWords[1])) {
+            if (slot.getName().equals(playerInputWords[1]) && slot.getHeldItem() instanceof AbstractFoodItem) {
                 if (playerInputWords[1].equals("whiskey")) {
                     UseWhiskey(slots, slot);
                     break;
@@ -313,6 +317,7 @@ public class GameManager implements Serializable {
                 }
             }
         }
+        Collections.reverse(slots);
     }
 
     /**
@@ -509,6 +514,7 @@ public class GameManager implements Serializable {
                 renderManager.RenderInventory(player.getInventory().getSlots());
                 System.out.println(player.getCompanions().toString());
                 System.out.println("Your reputation: " + player.getRep());
+                System.out.println("Your gold: " + player.getGold());
                 break;
             case "help":
                 renderManager.RenderHelp();
@@ -647,6 +653,15 @@ public class GameManager implements Serializable {
                 }
             } catch (NullPointerException ignored) {
             }
+        }
+        if(roundsFinished == 5){
+            System.out.println("Your expedition is over");
+            for(String rival : rivals.keySet()){
+                System.out.println( rival + " has " + rivals.get(rival) + " fame");
+            }
+
+            System.out.println("Your fame: "+ player.getFame());
+            System.exit(0);
         }
         StartLevel();
     }

@@ -23,7 +23,7 @@ public class SaveLoadManager {
      * @param whiskeyDrank egymás után megivott whiskey-k száma
      * @param drugUsed egymás után fogyasztott drogok száma
      */
-    public void SaveGame(AbstractTileObject[][] map, Player player, HashMap<String,Integer> rivals, AbstractTileObject standingOnTile, int whiskeyDrank, int drugUsed) {
+    public void SaveGame(AbstractTileObject[][] map, Player player, HashMap<String,Integer> rivals, AbstractTileObject standingOnTile, int whiskeyDrank, int drugUsed, int roundsFinished) {
 
         System.out.println("Trying to save");
 
@@ -41,6 +41,7 @@ public class SaveLoadManager {
             objectOut.writeObject(standingOnTile);
             objectOut.writeInt(whiskeyDrank);
             objectOut.writeInt(drugUsed);
+            objectOut.writeInt(roundsFinished);
 
 
             objectOut.close();
@@ -72,6 +73,7 @@ public class SaveLoadManager {
             gameManager.standingOnTile = (AbstractTileObject) objectIn.readObject();
             gameManager.whiskeyDrank = objectIn.readInt();
             gameManager.drugUsed = objectIn.readInt();
+            gameManager.roundsFinished = objectIn.readInt();
 
 
             objectIn.close();
